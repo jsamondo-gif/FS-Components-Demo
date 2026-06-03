@@ -1,7 +1,6 @@
 // fs-components.js
 import { sdk } from './fs-sdk.js';
 
-// 1. Mount the Card Component (White-Box Fix Included)
 const cardComponent = sdk.components.create('fs-card', {
     style: {
         state: {
@@ -9,17 +8,16 @@ const cardComponent = sdk.components.create('fs-card', {
                 card: { backgroundColor: 'transparent', border: 'none', boxShadow: 'none', padding: '0' },
                 input: {
                     backgroundColor: '#000000', borderColor: '#cc0000', borderRadius: '4px',
-                    height: '48px', padding: '0 10px', color: '#ffffff', fontSize: '16px'
+                    height: '48px', padding: '0 10px', 
+                    color: '#ffcc00', // Restored Sith Yellow input text!
+                    fontSize: '16px'
                 },
-                label: { color: '#aaaaaa', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '12px' } 
+                label: { color: '#ffcc00', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '12px' } // Yellow Labels!
             },
-            // FIX: Force the card to stay transparent when hovered or clicked
-            hover: { 
-                card: { backgroundColor: 'transparent' } 
-            },
+            hover: { card: { backgroundColor: 'transparent' } },
             focus: { 
                 card: { backgroundColor: 'transparent' },
-                input: { borderColor: '#ff0000', boxShadow: '0 0 10px #ff0000' } 
+                input: { borderColor: '#ffcc00', boxShadow: '0 0 10px #ffcc00' } // Yellow focus ring
             },
             error: { input: { borderColor: '#ff0000', color: '#ff0000' } }
         }
@@ -27,7 +25,6 @@ const cardComponent = sdk.components.create('fs-card', {
 });
 cardComponent.mount('#card-element');
 
-// 2. Mount the Pay Button Component (Lightsaber Animation)
 const payButtonComponent = sdk.components.create('fs-pay-button', {
     style: {
         state: {
@@ -39,29 +36,20 @@ const payButtonComponent = sdk.components.create('fs-pay-button', {
                     cursor: 'pointer', transition: 'all 0.2s ease-in-out'
                 }
             },
-            // THE IGNITION: Multiple layers of red shadow to create a glowing lightsaber core
-            hover: { 
-                button: { 
-                    backgroundColor: '#ff0000', 
-                    boxShadow: '0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000' 
-                } 
-            },
-            focus: {
-                button: { backgroundColor: '#ff0000', boxShadow: '0 0 15px #ffffff, 0 0 30px #ff0000' }
-            },
+            hover: { button: { backgroundColor: '#ff0000', boxShadow: '0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000' } },
+            focus: { button: { backgroundColor: '#ff0000', boxShadow: '0 0 15px #ffffff, 0 0 30px #ff0000' } },
             disabled: { button: { backgroundColor: '#220000', color: '#555555', cursor: 'not-allowed', border: 'none' } } 
         }
     }
 });
 payButtonComponent.mount('#pay-button-element');
 
-// 3. Mount Disclosures Component
 const disclosuresComponent = sdk.components.create('fs-disclosures', {
     style: {
         state: {
             default: {
                 container: { color: '#888888', fontFamily: 'Arial', fontSize: '12px' }, 
-                link: { color: '#ff0000', fontWeight: 'bold', textDecoration: 'none' }
+                link: { color: '#ffcc00', fontWeight: 'bold', textDecoration: 'none' }
             },
             hover: { link: { color: '#ffffff' } }
         }
@@ -69,8 +57,7 @@ const disclosuresComponent = sdk.components.create('fs-disclosures', {
 });
 disclosuresComponent.mount('#disclosures-container');
 
-
-// 4. THE TRIGGER: Fetch Session ID
+// THE TRIGGER
 document.getElementById('buyNowBtn').addEventListener('click', async () => {
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
@@ -95,6 +82,10 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
                 onSuccess: () => {
                     console.log('SDK accepted the Session ID. Components are now visible!');
                     btn.innerText = "Session Active";
+
+                    // UX FIX: Hide the dormant message and reveal the components!
+                    document.getElementById('dormant-message').style.display = 'none';
+                    document.getElementById('checkout-components-wrapper').style.display = 'block';
                 },
                 onError: (err) => {
                     console.error('SDK rejected the Session ID:', err);
