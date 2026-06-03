@@ -44,11 +44,12 @@
             padding: 40px; 
             box-shadow: 0 0 30px rgba(255, 0, 0, 0.6); 
             min-height: 400px;
+            position: relative;
         }
         
         h2 { 
             font-family: 'Cinzel Decorative', cursive;
-            color: #cc0000; /* Original Red */
+            color: #cc0000;
             text-transform: uppercase; 
             letter-spacing: 3px; 
             margin-top: 0; 
@@ -57,18 +58,16 @@
         
         .instructions { color: #ffffff; font-size: 15px; line-height: 1.5; margin-bottom: 30px; }
         
-        /* Form inputs with Sith Yellow accents */
         .form-group { margin-bottom: 15px; text-align: left; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #ffcc00; } /* Yellow Labels */
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #ffcc00; }
         
         input { 
             width: 100%; padding: 12px; border: 1px solid #cc0000; background-color: #050505; 
-            color: #ffcc00; /* Yellow Input Text */
+            color: #ffcc00; 
             border-radius: 4px; box-sizing: border-box; font-size: 14px;
         }
         input:focus { outline: none; border-color: #ffcc00; box-shadow: 0 0 10px #ffcc00; }
         
-        /* The Selected Artifact Box */
         .artifact-box {
             border: 1px solid #cc0000;
             background-color: rgba(20, 0, 0, 0.8);
@@ -95,7 +94,6 @@
             margin-bottom: 15px;
         }
 
-        /* The Dormant State Text */
         .dormant-text {
             color: #ffcc00;
             text-align: center;
@@ -103,6 +101,41 @@
             font-size: 18px;
             margin-top: 80px;
             text-shadow: 0 0 10px #ffcc00;
+        }
+
+        /* LIGHTSABER IGNITION CSS */
+        .lightsaber-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 40px auto;
+            width: 100%;
+        }
+        .hilt {
+            width: 80px;
+            height: 16px;
+            background: linear-gradient(to bottom, #999 0%, #333 50%, #999 100%);
+            border-radius: 4px 0 0 4px;
+            border-right: 4px solid #000;
+            box-shadow: inset 0 0 5px #000;
+            z-index: 10;
+        }
+        .blade {
+            height: 12px;
+            background-color: #ffffff;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000, 0 0 50px #ff0000, 0 0 80px #ff0000;
+            width: 0; /* Starts hidden */
+            /* When the success screen loads, trigger the animation! */
+            animation: igniteBlade 1.5s ease-out forwards;
+            animation-delay: 0.5s; /* Dramatic half-second pause */
+        }
+
+        @keyframes igniteBlade {
+            0% { width: 0; }
+            10% { width: 40px; } /* Flicker out */
+            15% { width: 20px; } /* Flicker back */
+            100% { width: 250px; } /* Full extension! */
         }
     </style>
 </head>
@@ -131,6 +164,18 @@
 
             <div id="dormant-message" class="dormant-text">
                 The portal lies dormant...<br><br>Initialize a session to summon the checkout.
+            </div>
+
+            <div id="success-message" style="display: none; text-align: center; margin-top: 40px;">
+                <h3 style="color: #cc0000; font-family: 'Cinzel Decorative', cursive; font-size: 24px; text-shadow: 0 0 15px #cc0000; margin-bottom: 10px;">Order 66 Executed</h3>
+                <p style="color: #aaaaaa; font-family: Arial, sans-serif;">Your payment was successful. The artifact is yours.</p>
+                
+                <div class="lightsaber-box">
+                    <div class="hilt"></div>
+                    <div class="blade"></div>
+                </div>
+
+                <p id="order-reference" style="color: #ffcc00; font-size: 14px; font-family: Arial, sans-serif; margin-top: 20px; font-weight: bold;"></p>
             </div>
 
             <div id="checkout-components-wrapper" style="display: none;">
