@@ -1,0 +1,95 @@
+// fs-components.js
+import { sdk } from './fs-sdk.js';
+
+// 1. Mount the Card Component
+const cardComponent = sdk.components.create('fs-card', {
+    style: {
+        state: {
+            default: {
+                card: { backgroundColor: 'transparent', border: 'none', boxShadow: 'none', padding: '0' },
+                input: {
+                    backgroundColor: '#000000', borderColor: '#cc0000', borderRadius: '4px',
+                    height: '48px', padding: '0 10px', color: '#ffcc00', fontSize: '16px'
+                },
+                label: { color: '#000000', fontWeight: 'bold' } // Black text so it shows on the white right-panel
+            },
+            focus: { input: { borderColor: '#ffcc00', boxShadow: '0 0 5px #ffcc00' } },
+            error: { input: { borderColor: '#ff0000' } }
+        }
+    }
+});
+cardComponent.mount('#card-element');
+
+// 2. Mount the Pay Button Component
+const payButtonComponent = sdk.components.create('fs-pay-button', {
+    style: {
+        state: {
+            default: {
+                button: {
+                    backgroundColor: '#cc0000', color: '#000000', border: 'none',
+                    borderRadius: '4px', width: '100%', height: '50px',
+                    fontSize: '16px', fontWeight: 'bold', textTransform: 'uppercase', cursor: 'pointer'
+                }
+            },
+            hover: { button: { backgroundColor: '#ffcc00', boxShadow: '0 0 15px #ffcc00' } },
+            disabled: { button: { backgroundColor: '#e0e0e0', color: '#888888', cursor: 'not-allowed' } }
+        }
+    }
+});
+payButtonComponent.mount('#pay-button-element');
+
+// 3. Mount Disclosures Component
+const disclosuresComponent = sdk.components.create('fs-disclosures', {
+    style: {
+        state: {
+            default: {
+                container: { color: '#666666', fontFamily: 'Arial', fontSize: '12px' },
+                link: { color: '#cc0000', fontWeight: 'bold' }
+            }
+        }
+    }
+});
+disclosuresComponent.mount('#disclosures-container');
+
+
+// 4. THE TRIGGER: Fetch Session ID from Node and feed it to the Components
+document.getElementById('buyNowBtn').addEventListener('click', async () => {
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    
+    const btn = document.getElementById('buyNowBtn');
+    btn.innerText = "Summoning...";
+    btn.disabled = true;
+    
+    try {
+        // Call your Node.js backend to get the Session ID
+        const response = await fetch('/create-session', {
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ firstName, lastName, email })
+        });
+        
+        const sessionData = await response.json();
+        console.log("Backend generated Session ID:", sessionData.id);
+
+        if (sessionData && sessionData.id) {
+            // STEP 6 FROM THE GUIDE: Feed the Session ID to the Components!
+            sdk.checkout(sessionData.id, {
+                onSuccess: () => {
+                    console.log('SDK accepted the Session ID. Components are now visible!');
+                    btn.innerText = "Session Active";
+                },
+                onError: (err) => {
+                    console.error('SDK rejected the Session ID:', err);
+                    btn.innerText = "Initialize Session";
+                    btn.disabled = false;
+                }
+            });
+        }
+    } catch (error) {
+        console.error("Backend fetch failed:", error);
+        btn.innerText = "Initialize Session";
+        btn.disabled = false;
+    }
+});

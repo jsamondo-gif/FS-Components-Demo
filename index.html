@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Side Checkout: Phase 2</title>
+
+    <!-- THE NEW FASTSPRING COMPONENTS SDK SCRIPT -->
+    <script src="https://cdn.onfastspring.com/checkout-sdk/latest/fastspring-sdk.js"></script>
+
+    <style>
+        body {
+            background: radial-gradient(circle at center, #2a0000 0%, #000000 80%);
+            color: #ffcc00; 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 40px; 
+            min-height: 100vh;
+            display: flex; 
+            justify-content: center;
+        }
+        .main-wrapper { 
+            display: flex; 
+            gap: 40px; 
+            width: 100%; 
+            max-width: 1200px; 
+            align-items: flex-start; 
+        }
+        .left-panel { 
+            flex: 1; 
+            background-color: rgba(26, 0, 0, 0.8); 
+            border: 2px solid #cc0000; 
+            padding: 40px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 20px #cc0000; 
+        }
+        /* The right panel is now white to cleanly host the secure iframes */
+        .right-panel { 
+            flex: 1; 
+            background-color: #ffffff; 
+            border-radius: 8px; 
+            padding: 40px; 
+            box-shadow: 0 0 20px rgba(204, 0, 0, 0.5); 
+            min-height: 400px;
+        }
+        
+        h2 { color: #cc0000; text-transform: uppercase; letter-spacing: 2px; margin-top: 0; margin-bottom: 10px; }
+        .instructions { color: #ffffff; font-size: 15px; line-height: 1.5; margin-bottom: 30px; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 12px; border: 1px solid #cc0000; background-color: #000; color: #ffcc00; border-radius: 4px; box-sizing: border-box; font-size: 14px;}
+        input:focus { outline: none; box-shadow: 0 0 8px #ffcc00; }
+        
+        button { width: 100%; padding: 15px; margin-top: 15px; background-color: #cc0000; color: #000; font-size: 16px; font-weight: bold; text-transform: uppercase; border: none; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #ffcc00; box-shadow: 0 0 15px #ffcc00; }
+        button:disabled { background-color: #330000; color: #666; cursor: not-allowed; box-shadow: none; }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <!-- LEFT PANEL: The Server Trigger -->
+        <div class="left-panel">
+            <h2>Phase 2: Components</h2>
+            <p class="instructions">Enter credentials to summon the Dark Side Checkout Components.</p>
+            
+            <div class="form-group"><label>First Name</label><input type="text" id="firstName" value="Darth"></div>
+            <div class="form-group"><label>Last Name</label><input type="text" id="lastName" value="Maul"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="email" value="maul@sith.com"></div>
+
+            <button id="buyNowBtn">Initialize Session</button>
+        </div>
+
+        <!-- RIGHT PANEL: The Component Anchors -->
+        <div class="right-panel">
+            <!-- The Card Form Lego Piece mounts here -->
+            <div id="card-element"></div>
+            <br>
+            <!-- The Pay Button Lego Piece mounts here -->
+            <div id="pay-button-element"></div>
+            <br>
+            <!-- The Compliance Footnote mounts here -->
+            <div id="disclosures-container"></div>
+        </div>
+    </div>
+
+    <!-- LINK THE SEPARATE JAVASCRIPT MODULES -->
+    <script type="module" src="/fs-components.js"></script>
+
+</body>
+</html>
