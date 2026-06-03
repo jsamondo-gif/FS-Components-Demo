@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dark Side Checkout: Phase 2</title>
 
-    <!-- THE NEW FASTSPRING COMPONENTS SDK SCRIPT -->
+    <!-- ANCIENT SITH FONT INJECTION -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- THE FASTSPRING COMPONENTS SDK SCRIPT -->
     <script src="https://cdn.onfastspring.com/checkout-sdk/latest/fastspring-sdk.js"></script>
 
     <style>
         body {
-            background: radial-gradient(circle at center, #2a0000 0%, #000000 80%);
-            color: #ffcc00; 
+            background: radial-gradient(circle at center, #1a0000 0%, #000000 100%);
+            color: #aaaaaa; 
             font-family: Arial, sans-serif; 
             margin: 0; 
             padding: 40px; 
@@ -26,40 +29,70 @@
             max-width: 1200px; 
             align-items: flex-start; 
         }
+        
+        /* Left Panel - Server Trigger */
         .left-panel { 
             flex: 1; 
-            background-color: rgba(26, 0, 0, 0.8); 
+            background-color: rgba(10, 0, 0, 0.9); 
             border: 2px solid #cc0000; 
             padding: 40px; 
             border-radius: 8px; 
             box-shadow: 0 0 20px #cc0000; 
         }
         
-        /* The right panel is now fully engulfed by the Dark Side */
+        /* Right Panel - DARTH MAUL SKIN */
         .right-panel { 
             flex: 1; 
-            background-color: #050000; 
-            border: 2px solid #cc0000;
+            /* Diagonal black and red streaks */
+            background: repeating-linear-gradient(
+                -45deg,
+                #050000,
+                #050000 20px,
+                #220000 20px,
+                #220000 40px
+            );
+            border: 2px solid #ff0000;
             border-radius: 8px; 
             padding: 40px; 
-            box-shadow: 0 0 20px rgba(204, 0, 0, 0.5); 
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6); 
             min-height: 400px;
         }
         
-        h2 { color: #cc0000; text-transform: uppercase; letter-spacing: 2px; margin-top: 0; margin-bottom: 10px; }
-        .instructions { color: #aaaaaa; font-size: 15px; line-height: 1.5; margin-bottom: 30px; }
-        .form-group { margin-bottom: 15px; text-align: left; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input { width: 100%; padding: 12px; border: 1px solid #cc0000; background-color: #000; color: #ffcc00; border-radius: 4px; box-sizing: border-box; font-size: 14px;}
-        input:focus { outline: none; box-shadow: 0 0 8px #ffcc00; }
+        /* Apply Book of Sith Font to Headers */
+        h2 { 
+            font-family: 'Cinzel Decorative', cursive;
+            color: #ff0000; 
+            text-transform: uppercase; 
+            letter-spacing: 3px; 
+            margin-top: 0; 
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #ff0000;
+        }
         
-        button { width: 100%; padding: 15px; margin-top: 15px; background-color: #cc0000; color: #000; font-size: 16px; font-weight: bold; text-transform: uppercase; border: none; border-radius: 4px; cursor: pointer; transition: 0.3s; }
-        button:hover { background-color: #ffcc00; box-shadow: 0 0 15px #ffcc00; }
-        button:disabled { background-color: #330000; color: #666; cursor: not-allowed; box-shadow: none; }
+        .instructions { color: #cccccc; font-size: 14px; line-height: 1.5; margin-bottom: 30px; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #888888; }
+        
+        /* Standard HTML Inputs */
+        input { 
+            width: 100%; padding: 12px; border: 1px solid #cc0000; background-color: #000; 
+            color: #ffffff; border-radius: 4px; box-sizing: border-box; font-size: 14px;
+        }
+        input:focus { outline: none; border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+        
+        /* HTML Button */
+        button { 
+            width: 100%; padding: 15px; margin-top: 15px; background-color: #990000; 
+            color: #ffffff; font-size: 16px; font-family: 'Cinzel Decorative', cursive; 
+            font-weight: bold; letter-spacing: 2px; border: none; border-radius: 4px; 
+            cursor: pointer; transition: 0.3s; 
+        }
+        button:hover { background-color: #ff0000; box-shadow: 0 0 20px #ff0000; }
+        button:disabled { background-color: #220000; color: #555; cursor: not-allowed; box-shadow: none; }
 
-        /* Custom wrappers for the FastSpring Lego Pieces */
+        /* FastSpring Component Wrappers */
         .fs-component-box {
-            background-color: #0a0000;
+            background-color: rgba(0, 0, 0, 0.85); /* Semi-transparent black over the streaks */
             border: 1px solid #550000;
             border-radius: 6px;
             padding: 20px;
@@ -70,7 +103,6 @@
 <body>
 
     <div class="main-wrapper">
-        <!-- LEFT PANEL: The Server Trigger -->
         <div class="left-panel">
             <h2>Phase 2: Components</h2>
             <p class="instructions">Enter credentials to summon the Dark Side Checkout Components.</p>
@@ -82,17 +114,14 @@
             <button id="buyNowBtn">Initialize Session</button>
         </div>
 
-        <!-- RIGHT PANEL: The Component Anchors -->
         <div class="right-panel">
-            <h2>Sith Holocron - $99.99</h2>
+            <h2>Sith Holocron</h2>
             <p class="instructions">Complete your payment below to unlock the secrets of the Dark Side.</p>
 
-            <!-- Card Form Lego Piece -->
             <div class="fs-component-box">
                 <div id="card-element"></div>
             </div>
             
-            <!-- Pay Button & Compliance Lego Pieces -->
             <div class="fs-component-box">
                 <div id="pay-button-element"></div>
                 <div style="margin-top: 15px; text-align: center;">
@@ -102,7 +131,6 @@
         </div>
     </div>
 
-    <!-- LINK THE SEPARATE JAVASCRIPT MODULES -->
     <script type="module" src="/fs-components.js"></script>
 
 </body>
