@@ -93,17 +93,15 @@
             padding: 20px;
             margin-bottom: 15px;
             position: relative;
-            z-index: 99999 !important;
+            z-index: 999;
         }
 
-        /* SITH FORCE OVERRIDE:
-           Targets the exact shadow DOM variables inside the FastSpring SDK elements.
-           Locks background fields to Pitch Black even when the SDK marks them disabled!
+        /* ADVANCED INJECTION: If FastSpring passes a disabled flag to the zip field 
+           internally based on the backend profile, hide it smoothly so the user 
+           isn't left trying to click a locked box!
         */
-        #card-element::part(input),
-        #card-element::part(input-disabled) {
-            background-color: #000000 !important;
-            color: #ffcc00 !important;
+        #card-element::part(postal-code-disabled) {
+            display: none !important;
         }
 
         .dormant-text {
