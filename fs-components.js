@@ -1,15 +1,9 @@
 // fs-components.js
 import { sdk } from './fs-sdk.js';
 
-// Mount the Card Component with explicit structural locking flags!
 const cardComponent = sdk.components.create('fs-card', {
-    labelMode: 'fixed',       // Matches your documentation boilerplate definition
-    hideCardHeader: true,     // Removes any redundant titles that shift your layout alignment
-    
-    // FORCE ATTR OVERRIDE: Tells the secure wrapper to explicitly render the zip field
-    // natively inside the frame boundaries so it avoids country-profiling lockdowns!
-    hidePostalCode: true,
-
+    labelMode: 'fixed',
+    hideCardHeader: true,
     style: {
         state: {
             default: {
@@ -29,6 +23,12 @@ const cardComponent = sdk.components.create('fs-card', {
             },
             error: { 
                 input: { borderColor: '#ff0000', color: '#ff0000', backgroundColor: '#000000' } 
+            },
+            disabled: {
+                // THE ULTIMATE THEME FIX: If the SDK disables an input field, force it to stay pitch black and dark gray!
+                card: { backgroundColor: 'transparent' },
+                input: { backgroundColor: '#050505', borderColor: '#440000', color: '#555555' },
+                label: { color: '#886600' }
             }
         }
     }
