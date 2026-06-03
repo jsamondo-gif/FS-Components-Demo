@@ -1,7 +1,15 @@
 // fs-components.js
 import { sdk } from './fs-sdk.js';
 
+// Mount the Card Component with explicit structural locking flags!
 const cardComponent = sdk.components.create('fs-card', {
+    labelMode: 'fixed',       // Matches your documentation boilerplate definition
+    hideCardHeader: true,     // Removes any redundant titles that shift your layout alignment
+    
+    // FORCE ATTR OVERRIDE: Tells the secure wrapper to explicitly render the zip field
+    // natively inside the frame boundaries so it avoids country-profiling lockdowns!
+    hidePostalCode: false,
+
     style: {
         state: {
             default: {
@@ -9,19 +17,17 @@ const cardComponent = sdk.components.create('fs-card', {
                 input: {
                     backgroundColor: '#000000', borderColor: '#cc0000', borderRadius: '4px',
                     height: '48px', padding: '0 10px', 
-                    color: '#ffcc00', // Restored Sith Yellow input text!
+                    color: '#ffcc00', 
                     fontSize: '16px'
                 },
-                label: { color: '#ffcc00', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '12px' } // Yellow Labels!
+                label: { color: '#ffcc00', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '12px' } 
             },
             hover: { card: { backgroundColor: 'transparent' } },
             focus: { 
                 card: { backgroundColor: 'transparent' },
-                // FIX: Added backgroundColor here to prevent gray/white autofill box flash on click
                 input: { borderColor: '#ffcc00', boxShadow: '0 0 10px #ffcc00', backgroundColor: '#000000' } 
             },
             error: { 
-                // FIX: Forces the input background to remain pitch black during a validation error
                 input: { borderColor: '#ff0000', color: '#ff0000', backgroundColor: '#000000' } 
             }
         }
@@ -87,7 +93,6 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
                     console.log('SDK accepted the Session ID. Components are now visible!');
                     btn.innerText = "Session Active";
 
-                    // UX FIX: Hide the dormant message and reveal the components!
                     document.getElementById('dormant-message').style.display = 'none';
                     document.getElementById('checkout-components-wrapper').style.display = 'block';
                 },
