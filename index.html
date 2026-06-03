@@ -92,8 +92,6 @@
             border-radius: 6px;
             padding: 20px;
             margin-bottom: 15px;
-            
-            /* THE FRONT LAYER LAYER FIX */
             position: relative;
             z-index: 100;
         }
@@ -144,14 +142,15 @@
 </head>
 <body>
 
-    <div class="main-wrapper">
+    <form class="main-wrapper" autocomplete="off" onsubmit="return false;">
+        
         <div class="left-panel">
             <h2>Claim Your Destiny</h2>
             <p class="instructions">Join the Dark Side. Enter your credentials below to generate a secure FastSpring session. Once initialized, your Sith Holocron will be summoned in the checkout portal.</p>
             
-            <div class="form-group"><label>First Name</label><input type="text" id="firstName" value="Jovente"></div>
-            <div class="form-group"><label>Last Name</label><input type="text" id="lastName" value="Samondo"></div>
-            <div class="form-group"><label>Email</label><input type="email" id="email" value="samondo.jovente@gmail.com"></div>
+            <div class="form-group"><label>First Name</label><input type="text" id="firstName" value="Jovente" autocomplete="new-password"></div>
+            <div class="form-group"><label>Last Name</label><input type="text" id="lastName" value="Samondo" autocomplete="new-password"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="email" value="samondo.jovente@gmail.com" autocomplete="new-password"></div>
 
             <div class="artifact-box">
                 <strong>Selected Artifact: Sith Holocron</strong>
@@ -197,7 +196,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 
     <audio id="saber-sound" src="https://www.myinstants.com/media/sounds/lightsaber_02.mp3" preload="auto"></audio>
 
