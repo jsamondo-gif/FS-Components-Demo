@@ -34,10 +34,12 @@
             border-radius: 8px; 
             box-shadow: 0 0 20px #cc0000; 
         }
-        /* The right panel is now white to cleanly host the secure iframes */
+        
+        /* The right panel is now fully engulfed by the Dark Side */
         .right-panel { 
             flex: 1; 
-            background-color: #ffffff; 
+            background-color: #050000; 
+            border: 2px solid #cc0000;
             border-radius: 8px; 
             padding: 40px; 
             box-shadow: 0 0 20px rgba(204, 0, 0, 0.5); 
@@ -45,7 +47,7 @@
         }
         
         h2 { color: #cc0000; text-transform: uppercase; letter-spacing: 2px; margin-top: 0; margin-bottom: 10px; }
-        .instructions { color: #ffffff; font-size: 15px; line-height: 1.5; margin-bottom: 30px; }
+        .instructions { color: #aaaaaa; font-size: 15px; line-height: 1.5; margin-bottom: 30px; }
         .form-group { margin-bottom: 15px; text-align: left; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
         input { width: 100%; padding: 12px; border: 1px solid #cc0000; background-color: #000; color: #ffcc00; border-radius: 4px; box-sizing: border-box; font-size: 14px;}
@@ -54,6 +56,15 @@
         button { width: 100%; padding: 15px; margin-top: 15px; background-color: #cc0000; color: #000; font-size: 16px; font-weight: bold; text-transform: uppercase; border: none; border-radius: 4px; cursor: pointer; transition: 0.3s; }
         button:hover { background-color: #ffcc00; box-shadow: 0 0 15px #ffcc00; }
         button:disabled { background-color: #330000; color: #666; cursor: not-allowed; box-shadow: none; }
+
+        /* Custom wrappers for the FastSpring Lego Pieces */
+        .fs-component-box {
+            background-color: #0a0000;
+            border: 1px solid #550000;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -73,14 +84,21 @@
 
         <!-- RIGHT PANEL: The Component Anchors -->
         <div class="right-panel">
-            <!-- The Card Form Lego Piece mounts here -->
-            <div id="card-element"></div>
-            <br>
-            <!-- The Pay Button Lego Piece mounts here -->
-            <div id="pay-button-element"></div>
-            <br>
-            <!-- The Compliance Footnote mounts here -->
-            <div id="disclosures-container"></div>
+            <h2>Sith Holocron - $99.99</h2>
+            <p class="instructions">Complete your payment below to unlock the secrets of the Dark Side.</p>
+
+            <!-- Card Form Lego Piece -->
+            <div class="fs-component-box">
+                <div id="card-element"></div>
+            </div>
+            
+            <!-- Pay Button & Compliance Lego Pieces -->
+            <div class="fs-component-box">
+                <div id="pay-button-element"></div>
+                <div style="margin-top: 15px; text-align: center;">
+                    <div id="disclosures-container"></div>
+                </div>
+            </div>
         </div>
     </div>
 
