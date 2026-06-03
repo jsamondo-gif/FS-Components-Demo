@@ -126,16 +126,15 @@
             border-radius: 0 10px 10px 0;
             box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000, 0 0 50px #ff0000, 0 0 80px #ff0000;
             width: 0; /* Starts hidden */
-            /* When the success screen loads, trigger the animation! */
             animation: igniteBlade 1.5s ease-out forwards;
-            animation-delay: 0.5s; /* Dramatic half-second pause */
+            animation-delay: 0.5s; 
         }
 
         @keyframes igniteBlade {
             0% { width: 0; }
-            10% { width: 40px; } /* Flicker out */
-            15% { width: 20px; } /* Flicker back */
-            100% { width: 250px; } /* Full extension! */
+            10% { width: 40px; } 
+            15% { width: 20px; } 
+            100% { width: 250px; } 
         }
     </style>
 </head>
@@ -159,8 +158,11 @@
         </div>
 
         <div class="right-panel">
-            <h2 style="color: #ff0000; text-shadow: 0 0 10px #ff0000;">Sith Holocron - $99.99</h2>
-            <p class="instructions" style="color: #cccccc;">Complete your payment below to unlock the secrets of the Dark Side.</p>
+            
+            <div id="checkout-header">
+                <h2 style="color: #ff0000; text-shadow: 0 0 10px #ff0000;">Sith Holocron - $99.99</h2>
+                <p class="instructions" style="color: #cccccc;">Complete your payment below to unlock the secrets of the Dark Side.</p>
+            </div>
 
             <div id="dormant-message" class="dormant-text">
                 The portal lies dormant...<br><br>Initialize a session to summon the checkout.
@@ -181,6 +183,9 @@
             <div id="checkout-components-wrapper" style="display: none;">
                 <div class="fs-component-box">
                     <div id="card-element"></div>
+                    <div style="margin-top: 15px;">
+                        <div id="postal-code-element"></div>
+                    </div>
                 </div>
                 
                 <div class="fs-component-box">
@@ -192,6 +197,8 @@
             </div>
         </div>
     </div>
+
+    <audio id="saber-sound" src="https://www.myinstants.com/media/sounds/lightsaber_02.mp3" preload="auto"></audio>
 
     <script type="module" src="/fs-components.js"></script>
 
