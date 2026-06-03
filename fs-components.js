@@ -23,12 +23,6 @@ const cardComponent = sdk.components.create('fs-card', {
             },
             error: { 
                 input: { borderColor: '#ff0000', color: '#ff0000', backgroundColor: '#000000' } 
-            },
-            disabled: {
-                // THE ULTIMATE THEME FIX: If the SDK disables an input field, force it to stay pitch black and dark gray!
-                card: { backgroundColor: 'transparent' },
-                input: { backgroundColor: '#050505', borderColor: '#440000', color: '#555555' },
-                label: { color: '#886600' }
             }
         }
     }
@@ -95,6 +89,24 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
 
                     document.getElementById('dormant-message').style.display = 'none';
                     document.getElementById('checkout-components-wrapper').style.display = 'block';
+
+                    // THE IRONCLAD UNLOCK ROUTINE
+                    // Forcibly strips away the disabled attribute and restores the Sith style
+                    const forceEnableZipCode = () => {
+                        const zipInput = document.getElementById('zipCode') || document.querySelector('input[name="postal-code"]');
+                        if (zipInput) {
+                            zipInput.removeAttribute('disabled');
+                            zipInput.disabled = false;
+                            zipInput.style.backgroundColor = '#000000';
+                            zipInput.style.color = '#ffcc00';
+                            zipInput.style.cursor = 'text';
+                        }
+                    };
+
+                    // Fires immediately and runs an interval for 3 seconds to defeat any background SDK overrides
+                    forceEnableZipCode();
+                    const unlockInterval = setInterval(forceEnableZipCode, 100);
+                    setTimeout(() => clearInterval(unlockInterval), 3000);
                 },
                 onError: (err) => {
                     console.error('SDK rejected the Session ID:', err);
