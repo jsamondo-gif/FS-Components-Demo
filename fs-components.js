@@ -1,7 +1,7 @@
 // fs-components.js
 import { sdk } from './fs-sdk.js';
 
-// 1. Mount the Card Component
+// 1. Mount the Card Component (Darth Maul Skin)
 const cardComponent = sdk.components.create('fs-card', {
     style: {
         state: {
@@ -11,9 +11,10 @@ const cardComponent = sdk.components.create('fs-card', {
                     backgroundColor: '#000000', borderColor: '#cc0000', borderRadius: '4px',
                     height: '48px', padding: '0 10px', color: '#ffcc00', fontSize: '16px'
                 },
-                label: { color: '#000000', fontWeight: 'bold' } // Black text so it shows on the white right-panel
+                // Updated to light grey so it pops against the black background!
+                label: { color: '#aaaaaa', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '12px' } 
             },
-            focus: { input: { borderColor: '#ffcc00', boxShadow: '0 0 5px #ffcc00' } },
+            focus: { input: { borderColor: '#ffcc00', boxShadow: '0 0 8px #ffcc00' } },
             error: { input: { borderColor: '#ff0000' } }
         }
     }
@@ -32,7 +33,8 @@ const payButtonComponent = sdk.components.create('fs-pay-button', {
                 }
             },
             hover: { button: { backgroundColor: '#ffcc00', boxShadow: '0 0 15px #ffcc00' } },
-            disabled: { button: { backgroundColor: '#e0e0e0', color: '#888888', cursor: 'not-allowed' } }
+            // Darkened the disabled state so it fits the theme better
+            disabled: { button: { backgroundColor: '#330000', color: '#666666', cursor: 'not-allowed' } } 
         }
     }
 });
@@ -43,7 +45,8 @@ const disclosuresComponent = sdk.components.create('fs-disclosures', {
     style: {
         state: {
             default: {
-                container: { color: '#666666', fontFamily: 'Arial', fontSize: '12px' },
+                // Changed text to light grey to stand out on the black background
+                container: { color: '#aaaaaa', fontFamily: 'Arial', fontSize: '12px' }, 
                 link: { color: '#cc0000', fontWeight: 'bold' }
             }
         }
