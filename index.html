@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dark Side Checkout: Phase 2</title>
 
-    <!-- ANCIENT SITH FONT INJECTION -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- THE FASTSPRING COMPONENTS SDK SCRIPT -->
     <script src="https://cdn.onfastspring.com/checkout-sdk/latest/fastspring-sdk.js"></script>
 
     <style>
@@ -30,7 +27,6 @@
             align-items: flex-start; 
         }
         
-        /* Left Panel - Server Trigger */
         .left-panel { 
             flex: 1; 
             background-color: rgba(10, 0, 0, 0.9); 
@@ -40,17 +36,9 @@
             box-shadow: 0 0 20px #cc0000; 
         }
         
-        /* Right Panel - DARTH MAUL SKIN */
         .right-panel { 
             flex: 1; 
-            /* Diagonal black and red streaks */
-            background: repeating-linear-gradient(
-                -45deg,
-                #050000,
-                #050000 20px,
-                #220000 20px,
-                #220000 40px
-            );
+            background: repeating-linear-gradient(-45deg, #050000, #050000 20px, #220000 20px, #220000 40px);
             border: 2px solid #ff0000;
             border-radius: 8px; 
             padding: 40px; 
@@ -58,45 +46,63 @@
             min-height: 400px;
         }
         
-        /* Apply Book of Sith Font to Headers */
         h2 { 
             font-family: 'Cinzel Decorative', cursive;
-            color: #ff0000; 
+            color: #cc0000; /* Original Red */
             text-transform: uppercase; 
             letter-spacing: 3px; 
             margin-top: 0; 
             margin-bottom: 10px;
-            text-shadow: 0 0 10px #ff0000;
         }
         
-        .instructions { color: #cccccc; font-size: 14px; line-height: 1.5; margin-bottom: 30px; }
+        .instructions { color: #ffffff; font-size: 15px; line-height: 1.5; margin-bottom: 30px; }
+        
+        /* Form inputs with Sith Yellow accents */
         .form-group { margin-bottom: 15px; text-align: left; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #888888; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #ffcc00; } /* Yellow Labels */
         
-        /* Standard HTML Inputs */
         input { 
-            width: 100%; padding: 12px; border: 1px solid #cc0000; background-color: #000; 
-            color: #ffffff; border-radius: 4px; box-sizing: border-box; font-size: 14px;
+            width: 100%; padding: 12px; border: 1px solid #cc0000; background-color: #050505; 
+            color: #ffcc00; /* Yellow Input Text */
+            border-radius: 4px; box-sizing: border-box; font-size: 14px;
         }
-        input:focus { outline: none; border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+        input:focus { outline: none; border-color: #ffcc00; box-shadow: 0 0 10px #ffcc00; }
         
-        /* HTML Button */
-        button { 
-            width: 100%; padding: 15px; margin-top: 15px; background-color: #990000; 
-            color: #ffffff; font-size: 16px; font-family: 'Cinzel Decorative', cursive; 
-            font-weight: bold; letter-spacing: 2px; border: none; border-radius: 4px; 
-            cursor: pointer; transition: 0.3s; 
+        /* The Selected Artifact Box */
+        .artifact-box {
+            border: 1px solid #cc0000;
+            background-color: rgba(20, 0, 0, 0.8);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            color: #ffcc00;
         }
-        button:hover { background-color: #ff0000; box-shadow: 0 0 20px #ff0000; }
-        button:disabled { background-color: #220000; color: #555; cursor: not-allowed; box-shadow: none; }
+        .artifact-box strong { font-size: 18px; display: block; margin-bottom: 5px; }
 
-        /* FastSpring Component Wrappers */
+        button { 
+            width: 100%; padding: 15px; background-color: #cc0000; 
+            color: #000000; font-size: 16px; font-weight: bold; text-transform: uppercase; 
+            border: none; border-radius: 4px; cursor: pointer; transition: 0.3s; 
+        }
+        button:hover { background-color: #ffcc00; box-shadow: 0 0 15px #ffcc00; }
+        button:disabled { background-color: #330000; color: #666; cursor: not-allowed; box-shadow: none; }
+
         .fs-component-box {
-            background-color: rgba(0, 0, 0, 0.85); /* Semi-transparent black over the streaks */
+            background-color: rgba(0, 0, 0, 0.85); 
             border: 1px solid #550000;
             border-radius: 6px;
             padding: 20px;
             margin-bottom: 15px;
+        }
+
+        /* The Dormant State Text */
+        .dormant-text {
+            color: #ffcc00;
+            text-align: center;
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 18px;
+            margin-top: 80px;
+            text-shadow: 0 0 10px #ffcc00;
         }
     </style>
 </head>
@@ -104,28 +110,39 @@
 
     <div class="main-wrapper">
         <div class="left-panel">
-            <h2>Phase 2: Components</h2>
-            <p class="instructions">Enter credentials to summon the Dark Side Checkout Components.</p>
+            <h2>Claim Your Destiny</h2>
+            <p class="instructions">Join the Dark Side. Enter your credentials below to generate a secure FastSpring session. Once initialized, your Sith Holocron will be summoned in the checkout portal.</p>
             
-            <div class="form-group"><label>First Name</label><input type="text" id="firstName" value="Darth"></div>
-            <div class="form-group"><label>Last Name</label><input type="text" id="lastName" value="Maul"></div>
-            <div class="form-group"><label>Email</label><input type="email" id="email" value="maul@sith.com"></div>
+            <div class="form-group"><label>First Name</label><input type="text" id="firstName" value="Jovente"></div>
+            <div class="form-group"><label>Last Name</label><input type="text" id="lastName" value="Samondo"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="email" value="samondo.jovente@gmail.com"></div>
+
+            <div class="artifact-box">
+                <strong>Selected Artifact: Sith Holocron</strong>
+                Price: $99.99
+            </div>
 
             <button id="buyNowBtn">Initialize Session</button>
         </div>
 
         <div class="right-panel">
-            <h2>Sith Holocron</h2>
-            <p class="instructions">Complete your payment below to unlock the secrets of the Dark Side.</p>
+            <h2 style="color: #ff0000; text-shadow: 0 0 10px #ff0000;">Sith Holocron - $99.99</h2>
+            <p class="instructions" style="color: #cccccc;">Complete your payment below to unlock the secrets of the Dark Side.</p>
 
-            <div class="fs-component-box">
-                <div id="card-element"></div>
+            <div id="dormant-message" class="dormant-text">
+                The portal lies dormant...<br><br>Initialize a session to summon the checkout.
             </div>
-            
-            <div class="fs-component-box">
-                <div id="pay-button-element"></div>
-                <div style="margin-top: 15px; text-align: center;">
-                    <div id="disclosures-container"></div>
+
+            <div id="checkout-components-wrapper" style="display: none;">
+                <div class="fs-component-box">
+                    <div id="card-element"></div>
+                </div>
+                
+                <div class="fs-component-box">
+                    <div id="pay-button-element"></div>
+                    <div style="margin-top: 15px; text-align: center;">
+                        <div id="disclosures-container"></div>
+                    </div>
                 </div>
             </div>
         </div>
