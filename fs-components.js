@@ -8,7 +8,7 @@ const cardComponent = sdk.components.create('fs-card', {
     
     // FORCE ATTR OVERRIDE: Tells the secure wrapper to explicitly render the zip field
     // natively inside the frame boundaries so it avoids country-profiling lockdowns!
-    hidePostalCode: false,
+    hidePostalCode: true,
 
     style: {
         state: {
