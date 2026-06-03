@@ -17,9 +17,13 @@ const cardComponent = sdk.components.create('fs-card', {
             hover: { card: { backgroundColor: 'transparent' } },
             focus: { 
                 card: { backgroundColor: 'transparent' },
-                input: { borderColor: '#ffcc00', boxShadow: '0 0 10px #ffcc00' } // Yellow focus ring
+                // FIX: Added backgroundColor here to prevent gray/white autofill box flash on click
+                input: { borderColor: '#ffcc00', boxShadow: '0 0 10px #ffcc00', backgroundColor: '#000000' } 
             },
-            error: { input: { borderColor: '#ff0000', color: '#ff0000' } }
+            error: { 
+                // FIX: Forces the input background to remain pitch black during a validation error
+                input: { borderColor: '#ff0000', color: '#ff0000', backgroundColor: '#000000' } 
+            }
         }
     }
 });
