@@ -66,7 +66,32 @@
             color: #ffcc00; 
             border-radius: 4px; box-sizing: border-box; font-size: 14px;
         }
-        input:focus { outline: none; border-color: #ffcc00; box-shadow: 0 0 10px #ffcc00; }
+        
+        /* FIX 1: Ensure regular click focus stays black */
+        input:focus { 
+            outline: none; 
+            border-color: #ffcc00; 
+            box-shadow: 0 0 10px #ffcc00; 
+            background-color: #050505; 
+        }
+
+        /* FIX 2: Kill Chrome Autofill White Background on the Left Panel */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #050505 inset !important;
+            -webkit-text-fill-color: #ffcc00 !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        /* FIX 3: Kill Chrome Autofill White Background on FastSpring Zip Code (Shadow DOM) */
+        #card-element::part(input):-webkit-autofill,
+        #card-element::part(input-disabled):-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 30px #000000 inset !important;
+            -webkit-text-fill-color: #ffcc00 !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
         
         .artifact-box {
             border: 1px solid #cc0000;
