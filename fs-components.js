@@ -1,6 +1,55 @@
 // fs-components.js
 import { sdk } from './fs-sdk.js';
 
+// 1. EMAIL COMPONENT
+const emailComponent = sdk.components.create('fs-email', {
+    fields: { email: 'auto' },
+    labelMode: 'fixed',
+    hideEmailHeader: false,
+    style: {
+        state: {
+            default: {
+                email: { backgroundColor: 'transparent' },
+                emailTitle: { color: '#ffcc00', fontSize: '14px' },
+                label: { color: '#ffcc00', fontWeight: 'bold', fontSize: '12px' },
+                input: {
+                    backgroundColor: '#000000', borderColor: '#cc0000', borderRadius: '4px',
+                    height: '48px', color: '#ffcc00', fontSize: '16px'
+                }
+            },
+            focus: {
+                input: { borderColor: '#ffcc00', boxShadow: '0 0 10px #ffcc00', backgroundColor: '#000000' }
+            }
+        }
+    }
+});
+emailComponent.mount('#email-element');
+
+// 2. COUPON COMPONENT
+const couponComponent = sdk.components.create('fs-coupon', {
+    style: {
+        state: {
+            default: {
+                input: {
+                    background: '#000000', borderColor: '#cc0000', borderRadius: '4px',
+                    height: '44px', color: '#ffcc00'
+                },
+                button: {
+                    background: '#880000', color: '#ffffff', borderRadius: '4px'
+                },
+                chip: {
+                    background: '#220000', color: '#ffcc00', borderRadius: '12px'
+                }
+            },
+            focus: {
+                input: { borderColor: '#ffcc00', boxShadow: '0 0 10px #ffcc00' }
+            }
+        }
+    }
+});
+couponComponent.mount('#coupon-element');
+
+// 3. CARD COMPONENT
 const cardComponent = sdk.components.create('fs-card', {
     labelMode: 'fixed',
     hideCardHeader: true,
@@ -29,6 +78,7 @@ const cardComponent = sdk.components.create('fs-card', {
 });
 cardComponent.mount('#card-element');
 
+// 4. PAY BUTTON COMPONENT
 const payButtonComponent = sdk.components.create('fs-pay-button', {
     style: {
         state: {
@@ -48,6 +98,7 @@ const payButtonComponent = sdk.components.create('fs-pay-button', {
 });
 payButtonComponent.mount('#pay-button-element');
 
+// 5. DISCLOSURES COMPONENT
 const disclosuresComponent = sdk.components.create('fs-disclosures', {
     style: {
         state: {
@@ -59,9 +110,9 @@ const disclosuresComponent = sdk.components.create('fs-disclosures', {
         }
     }
 });
-disclosuresComponent.mount('#disclosures-container');
+disclosuresComponent.mount('#disclosures-element');
 
-// THE TRIGGER
+// SESSION TRIGGER
 document.getElementById('buyNowBtn').addEventListener('click', async () => {
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
@@ -89,24 +140,6 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
 
                     document.getElementById('dormant-message').style.display = 'none';
                     document.getElementById('checkout-components-wrapper').style.display = 'block';
-
-                    // THE IRONCLAD UNLOCK ROUTINE
-                    // Forcibly strips away the disabled attribute and restores the Sith style
-                    const forceEnableZipCode = () => {
-                        const zipInput = document.getElementById('zipCode') || document.querySelector('input[name="postal-code"]');
-                        if (zipInput) {
-                            zipInput.removeAttribute('disabled');
-                            zipInput.disabled = false;
-                            zipInput.style.backgroundColor = '#000000';
-                            zipInput.style.color = '#ffcc00';
-                            zipInput.style.cursor = 'text';
-                        }
-                    };
-
-                    // Fires immediately and runs an interval for 3 seconds to defeat any background SDK overrides
-                    forceEnableZipCode();
-                    const unlockInterval = setInterval(forceEnableZipCode, 100);
-                    setTimeout(() => clearInterval(unlockInterval), 3000);
                 },
                 onError: (err) => {
                     console.error('SDK rejected the Session ID:', err);
