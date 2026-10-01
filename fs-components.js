@@ -157,7 +157,6 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
                 onSuccess: () => {
                     console.log('SDK accepted the Session ID. Components are now visible!');
                     btn.innerText = "Session Active";
-
                     document.getElementById('dormant-message').style.display = 'none';
                     document.getElementById('checkout-components-wrapper').style.display = 'block';
                 },
