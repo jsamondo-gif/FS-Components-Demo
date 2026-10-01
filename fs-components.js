@@ -132,7 +132,7 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
     // 1. UNLOCK THE AUDIO ON FIRST CLICK
     const jetAudio = document.getElementById('jet-sound');
     if (jetAudio) {
-        jetAudio.play().catch(() => {}); // Catch and ignore the browser's initial block
+        jetAudio.play().catch(() => {}); 
         jetAudio.pause();
         jetAudio.currentTime = 0;
     }
@@ -147,27 +147,38 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
         const sessionData = await response.json();
         
         if (sessionData && sessionData.id) {
-            sdk.checkout(sessionData.id, {
-                onSuccess: (orderData) => {
-                    // Hide checkout, show success
-                    document.getElementById('checkout-components-wrapper').style.display = 'none';
-                    document.getElementById('checkout-header').style.display = 'none';
-                    document.getElementById('success-message').style.display = 'block';
-                    
-                    if (orderData && orderData.id) {
-                        document.getElementById('order-reference').innerText = `Uplink Ref: ${orderData.id}`;
-                    }
+            
+            // Define the success action separately so we can attach it to the correct completion hook
+            const handleOrderComplete = (orderData) => {
+                document.getElementById('checkout-components-wrapper').style.display = 'none';
+                document.getElementById('checkout-header').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+                
+                if (orderData && orderData.id) {
+                    document.getElementById('order-reference').innerText = `Uplink Ref: ${orderData.id}`;
+                }
 
-                    // 2. PLAY THE JET SOUND
-                    if (jetAudio) {
-                        jetAudio.play().catch(err => console.log("Audio play prevented by browser:", err));
-                    }
+                // 2. PLAY THE JET SOUND
+                if (jetAudio) {
+                    jetAudio.play().catch(err => console.log("Audio play prevented by browser:", err));
+                }
+            };
+
+            sdk.checkout(sessionData.id, {
+                // onSuccess fires when the checkout INITIALIZES, so we just reveal the UI here
+                onSuccess: () => {
+                    btn.innerText = "UPLINK SECURED";
+                    document.getElementById('dormant-message').style.display = 'none';
+                    document.getElementById('checkout-components-wrapper').style.display = 'block';
                 },
                 onError: (err) => {
                     console.error('SDK rejected the Session ID:', err);
                     btn.innerText = "Initialize Uplink";
                     btn.disabled = false;
-                }
+                },
+                // These hooks wait for the actual payment to process before firing the jet
+                onOrderCompleted: handleOrderComplete,
+                onComplete: handleOrderComplete
             });
         }
     } catch (error) {
