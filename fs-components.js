@@ -51,7 +51,7 @@ couponComponent.mount('#coupon-element');
 
 // 3. APPLE PAY COMPONENT
 const applePayComponent = sdk.components.create('fs-apple-pay', {
-    variant: 'white', // Changed to white to pop against the Sith theme
+    variant: 'black', // Safe variant
     style: {
         state: {
             default: {
@@ -64,7 +64,7 @@ applePayComponent.mount('#apple-pay-element');
 
 // 4. GOOGLE PAY COMPONENT
 const googlePayComponent = sdk.components.create('fs-google-pay', {
-    variant: 'light', // Changed to light to pop against the Sith theme
+    variant: 'dark', // Safe variant
     style: {
         state: {
             default: {
@@ -150,14 +150,11 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
         });
 
         const sessionData = await response.json();
-        console.log("Backend generated Session ID:", sessionData.id);
-
+        
         if (sessionData && sessionData.id) {
             sdk.checkout(sessionData.id, {
                 onSuccess: () => {
-                    console.log('SDK accepted the Session ID. Components are now visible!');
                     btn.innerText = "Session Active";
-
                     document.getElementById('dormant-message').style.display = 'none';
                     document.getElementById('checkout-components-wrapper').style.display = 'block';
                 },
