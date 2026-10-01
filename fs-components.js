@@ -1,6 +1,7 @@
+// fs-components.js
 import { sdk } from './fs-sdk.js';
 
-// 1. EMAIL COMPONENT (Full editing enabled)
+// 1. EMAIL COMPONENT
 const emailComponent = sdk.components.create('fs-email', {
     fields: { email: 'auto' },
     labelMode: 'fixed',
@@ -123,23 +124,26 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
         });
 
         const sessionData = await response.json();
+        console.log("Backend generated Session ID:", sessionData.id);
 
         if (sessionData && sessionData.id) {
             sdk.checkout(sessionData.id, {
                 onSuccess: () => {
+                    console.log('SDK accepted the Session ID. Components are now visible!');
                     btn.innerText = "Session Active";
+
                     document.getElementById('dormant-message').style.display = 'none';
                     document.getElementById('checkout-components-wrapper').style.display = 'block';
                 },
                 onError: (err) => {
-                    console.error('SDK error:', err);
+                    console.error('SDK rejected the Session ID:', err);
                     btn.innerText = "Initialize Session";
                     btn.disabled = false;
                 }
             });
         }
     } catch (error) {
-        console.error("Backend fetch error:", error);
+        console.error("Backend fetch failed:", error);
         btn.innerText = "Initialize Session";
         btn.disabled = false;
     }
