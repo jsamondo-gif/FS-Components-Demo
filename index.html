@@ -34,7 +34,28 @@
             min-height: 100vh;
             display: flex; 
             justify-content: center;
-            align-items: center; /* Centers UI panels vertically to eliminate white whitespace */
+            align-items: center;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        /* Ambient Dynamic Radar Ping Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 600px; height: 600px;
+            margin-top: -300px; margin-left: -300px;
+            border: 1px solid rgba(0, 229, 255, 0.12);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: radarSweep 5s ease-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes radarSweep {
+            0% { transform: scale(0.2); opacity: 0.8; }
+            100% { transform: scale(2.2); opacity: 0; }
         }
 
         .main-wrapper { 
@@ -43,18 +64,21 @@
             width: 100%; 
             max-width: 1100px; 
             align-items: flex-start; 
+            z-index: 1;
+            transform-style: preserve-3d;
         }
         
         /* Left Panel - Pilot Roster */
         .left-panel { 
             flex: 1; 
-            background-color: rgba(5, 12, 30, 0.85); 
+            background-color: rgba(5, 12, 30, 0.88); 
             border: 1px solid #00e5ff; 
             padding: 30px; 
             border-radius: 4px; 
             box-shadow: 0 0 25px rgba(0, 229, 255, 0.2); 
             backdrop-filter: blur(8px);
             position: relative;
+            transition: transform 0.1s ease-out, box-shadow 0.3s;
         }
 
         /* Tactical corner brackets */
@@ -67,13 +91,14 @@
         /* Right Panel - Secure Uplink */
         .right-panel { 
             flex: 1; 
-            background: linear-gradient(135deg, rgba(3, 8, 20, 0.9), rgba(12, 24, 48, 0.9));
+            background: linear-gradient(135deg, rgba(3, 8, 20, 0.92), rgba(12, 24, 48, 0.92));
             border: 1px solid #ff9900;
             border-radius: 4px; 
             padding: 30px; 
             box-shadow: 0 0 30px rgba(255, 153, 0, 0.25); 
             backdrop-filter: blur(8px);
             position: relative;
+            transition: transform 0.1s ease-out, box-shadow 0.3s;
         }
         
         h2 { 
@@ -94,12 +119,20 @@
             width: 100%; padding: 10px; border: 1px solid #00e5ff; background-color: rgba(0, 0, 0, 0.6); 
             color: #ffffff; 
             border-radius: 2px; font-size: 14px; font-family: 'Share Tech Mono', monospace;
+            transition: all 0.3s ease;
         }
         
+        /* Reticle Lock-On Focus Effect */
         input:focus { 
             outline: none; 
             border-color: #ffffff; 
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5); 
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.8), inset 0 0 8px rgba(0, 229, 255, 0.3); 
+            animation: reticlePulse 1.5s infinite alternate;
+        }
+
+        @keyframes reticlePulse {
+            0% { border-color: #00e5ff; box-shadow: 0 0 10px rgba(0, 229, 255, 0.6); }
+            100% { border-color: #ffffff; box-shadow: 0 0 20px rgba(0, 229, 255, 1); }
         }
 
         /* Prevent Chrome Autofill from forcing a white background */
@@ -124,8 +157,10 @@
             width: 100%; padding: 12px; background-color: #ff9900; 
             color: #000000; font-size: 16px; font-weight: bold; text-transform: uppercase; 
             border: none; border-radius: 2px; cursor: pointer; transition: 0.3s; font-family: 'Share Tech Mono', monospace; letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
         }
-        button:hover { background-color: #ffcc00; box-shadow: 0 0 15px rgba(255, 153, 0, 0.6); }
+        button:hover { background-color: #ffcc00; box-shadow: 0 0 18px rgba(255, 153, 0, 0.7); }
         button:disabled { background-color: #333; color: #666; cursor: not-allowed; box-shadow: none; }
 
         .fs-checkout-card {
@@ -147,6 +182,7 @@
         .dormant-text {
             color: #00e5ff; text-align: center; font-size: 16px; margin: 40px 0;
             text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+            transition: opacity 0.3s;
         }
 
         /* JET ANIMATION */
@@ -187,7 +223,7 @@
 <body>
 
     <div class="main-wrapper">
-        <div class="left-panel">
+        <div class="left-panel" id="leftPanel">
             <h2>Pilot Registration</h2>
             <p class="instructions">Enter credentials to establish a secure FastSpring uplink.</p>
             
@@ -208,7 +244,7 @@
             <button id="buyNowBtn">Initialize Uplink</button>
         </div>
 
-        <div class="right-panel">
+        <div class="right-panel" id="rightPanel">
             <div id="checkout-header">
                 <h2 style="color: #ff9900; text-shadow: 0 0 10px rgba(255,153,0,0.4); font-size: 20px;">Sith Holocron - $99.99</h2>
                 <p class="instructions">Secure comms established. Awaiting payment authorization to deploy payload.</p>
@@ -257,6 +293,62 @@
     </div>
 
     <audio id="jet-sound" src="jet-flyby.mp3" preload="auto"></audio>
+
+    <script>
+        // 1. Interactive 3D Card Parallax Tilt Effect
+        const leftPanel = document.getElementById('leftPanel');
+        const rightPanel = document.getElementById('rightPanel');
+
+        function applyTilt(e, card) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            const rotateX = (y / (rect.height / 2)) * -4;
+            const rotateY = (x / (rect.width / 2)) * 4;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }
+
+        function resetTilt(card) {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        }
+
+        leftPanel.addEventListener('mousemove', (e) => applyTilt(e, leftPanel));
+        leftPanel.addEventListener('mouseleave', () => resetTilt(leftPanel));
+        rightPanel.addEventListener('mousemove', (e) => applyTilt(e, rightPanel));
+        rightPanel.addEventListener('mouseleave', () => resetTilt(rightPanel));
+
+        // 2. Uplink Initialization & Transition Sequence
+        document.getElementById('buyNowBtn').addEventListener('click', () => {
+            const btn = document.getElementById('buyNowBtn');
+            const dormant = document.getElementById('dormant-message');
+            const wrapper = document.getElementById('checkout-components-wrapper');
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+
+            // Arm button feedback sequence
+            btn.innerHTML = '[ ESTABLISHING UPLINK... ]';
+            btn.style.backgroundColor = '#00e5ff';
+
+            setTimeout(() => {
+                btn.innerHTML = '[ UPLINK ACTIVE ]';
+                btn.style.backgroundColor = '#ffcc00';
+
+                // Fade out dormant text & show FastSpring container
+                dormant.style.display = 'none';
+                wrapper.style.display = 'block';
+
+                // Push customer info to FastSpring SDK if initialized
+                if (window.fastspring && typeof fastspring.builder === 'object') {
+                    fastspring.builder.push({
+                        "recipient": {
+                            "firstName": firstName,
+                            "lastName": lastName
+                        }
+                    });
+                }
+            }, 600);
+        });
+    </script>
     <script type="module" src="fs-components.js"></script>
 
 </body>
