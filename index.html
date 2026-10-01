@@ -123,7 +123,13 @@
             gap: 12px;
         }
         
-        /* Frame the invisible black buttons with a Sith Red border so they pop! */
+        /* Hide individual empty wallet containers so we don't get empty red borders */
+        #apple-pay-element:not(:has(iframe)),
+        #google-pay-element:not(:has(iframe)) {
+            display: none !important;
+        }
+        
+        /* Frame the wallets with a Sith Red border */
         #apple-pay-element, 
         #google-pay-element {
             border: 1px solid #cc0000;
