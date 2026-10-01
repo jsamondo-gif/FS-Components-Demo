@@ -33,7 +33,7 @@
             color: #b0c4de; 
             font-family: 'Share Tech Mono', monospace; 
             margin: 0; 
-            padding: 40px 20px; 
+            padding: 80px 20px 40px 20px; 
             min-height: 100vh;
             display: flex; 
             justify-content: center;
@@ -41,6 +41,40 @@
             overflow-x: hidden;
             perspective: 1200px;
         }
+
+        /* Top Bar Header Navigation */
+        .hud-topbar {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 14px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(2, 6, 15, 0.95) 0%, rgba(2, 6, 15, 0) 100%);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.25);
+            font-size: 12px;
+            letter-spacing: 2px;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .hud-logo { color: #00e5ff; font-weight: bold; text-shadow: 0 0 8px rgba(0,229,255,0.6); }
+        .hud-logo span { color: #ff9900; }
+        .hud-telemetry { color: #87cefa; font-size: 11px; }
+
+        /* HUD Corner Telemetry Ticks */
+        .hud-corner {
+            position: fixed;
+            font-size: 11px;
+            color: rgba(0, 229, 255, 0.5);
+            letter-spacing: 2px;
+            pointer-events: none;
+            z-index: 5;
+            text-shadow: 0 0 5px rgba(0, 229, 255, 0.4);
+        }
+        .top-left { top: 60px; left: 30px; }
+        .top-right { top: 60px; right: 30px; }
+        .bottom-left { bottom: 25px; left: 30px; }
+        .bottom-right { bottom: 25px; right: 30px; }
 
         /* Brighter, High-Contrast Sonar Radar Ping Overlay */
         body::before, body::after {
@@ -88,7 +122,6 @@
             box-shadow: 0 0 25px rgba(0, 229, 255, 0.25); 
             backdrop-filter: blur(8px);
             position: relative;
-            /* Smooth interpolation prevents card jittering */
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
             will-change: transform;
         }
@@ -111,7 +144,6 @@
             box-shadow: 0 0 30px rgba(255, 153, 0, 0.3); 
             backdrop-filter: blur(8px);
             position: relative;
-            /* Smooth interpolation prevents card jittering */
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
             will-change: transform;
         }
@@ -166,8 +198,28 @@
             border-radius: 2px;
             color: #ffffff;
             border-left: 4px solid #00e5ff;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
-        .artifact-box strong { font-size: 16px; display: block; margin-bottom: 4px; color: #00e5ff; }
+
+        .artifact-thumbnail {
+            width: 46px;
+            height: 46px;
+            border: 1px solid #00e5ff;
+            background: rgba(0, 229, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+            flex-shrink: 0;
+        }
+
+        .artifact-details {
+            flex: 1;
+        }
+
+        .artifact-details strong { font-size: 16px; display: block; margin-bottom: 2px; color: #00e5ff; }
 
         button { 
             width: 100%; padding: 12px; background-color: #ff9900; 
@@ -233,10 +285,27 @@
             .main-wrapper {
                 flex-direction: column;
             }
+            .hud-corner {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- HUD Top Bar -->
+    <div class="hud-topbar">
+        <div class="hud-logo">METALSTORM // <span>UPLINK v2.4</span></div>
+        <div class="hud-telemetry">
+            <span>LATENCY: 18MS</span> | <span>ENCRYPTION: TLS 1.3</span> | <span>SERVER: US-EAST</span>
+        </div>
+    </div>
+
+    <!-- HUD Corner Telemetry Ticks -->
+    <div class="hud-corner top-left">HDG: 280° NW</div>
+    <div class="hud-corner top-right">ALT: 18,500 FT | MACH 1.2</div>
+    <div class="hud-corner bottom-left">SYS: ONLINE</div>
+    <div class="hud-corner bottom-right">SEC: ENCRYPTED</div>
 
     <div class="main-wrapper">
         <div class="left-panel" id="leftPanel">
@@ -253,8 +322,19 @@
             </div>
 
             <div class="artifact-box">
-                <strong>Selected Artifact: Sith Holocron</strong>
-                Authorization: $99.99 USD
+                <!-- Holographic Item Thumbnail -->
+                <div class="artifact-thumbnail">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                        <polyline points="2 17 12 22 22 17" />
+                        <polyline points="2 12 12 17 22 12" />
+                    </svg>
+                </div>
+                <div class="artifact-details">
+                    <div style="font-size: 10px; color: #ff9900; letter-spacing: 2px; margin-bottom: 2px; text-transform: uppercase;">[ LEGENDARY ARTIFACT ]</div>
+                    <strong>Selected Artifact: Sith Holocron</strong>
+                    <span style="font-size: 12px; color: #b0c4de;">Authorization: $99.99 USD</span>
+                </div>
             </div>
 
             <button id="buyNowBtn">Initialize Uplink</button>
