@@ -117,21 +117,17 @@
         .express-checkout:not(:has(.wallet-buttons > [style*="display: block"])) {
             display: none;
         }
+        
         .wallet-buttons {
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
         
-        /* Hide individual empty wallet containers so we don't get empty red borders */
-        #apple-pay-element:not(:has(iframe)),
-        #google-pay-element:not(:has(iframe)) {
-            display: none !important;
-        }
-        
-        /* Frame the wallets with a Sith Red border */
+        /* Hide by default! FastSpring will inject style="display: block" if the wallet is active */
         #apple-pay-element, 
         #google-pay-element {
+            display: none; 
             border: 1px solid #cc0000;
             background-color: #050505;
             border-radius: 5px;
