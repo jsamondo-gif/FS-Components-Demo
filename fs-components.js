@@ -49,7 +49,33 @@ const couponComponent = sdk.components.create('fs-coupon', {
 });
 couponComponent.mount('#coupon-element');
 
-// 3. CARD COMPONENT
+// 3. APPLE PAY COMPONENT
+const applePayComponent = sdk.components.create('fs-apple-pay', {
+    variant: 'black',
+    style: {
+        state: {
+            default: {
+                button: { height: '46px', borderRadius: '4px' }
+            }
+        }
+    }
+});
+applePayComponent.mount('#apple-pay-element');
+
+// 4. GOOGLE PAY COMPONENT
+const googlePayComponent = sdk.components.create('fs-google-pay', {
+    variant: 'dark',
+    style: {
+        state: {
+            default: {
+                button: { height: '46px', borderRadius: '4px', fontSize: '16px', fontWeight: 'bold' }
+            }
+        }
+    }
+});
+googlePayComponent.mount('#google-pay-element');
+
+// 5. CARD COMPONENT
 const cardComponent = sdk.components.create('fs-card', {
     labelMode: 'fixed',
     hideCardHeader: true,
@@ -76,7 +102,7 @@ const cardComponent = sdk.components.create('fs-card', {
 });
 cardComponent.mount('#card-element');
 
-// 4. PAY BUTTON COMPONENT
+// 6. PAY BUTTON COMPONENT
 const payButtonComponent = sdk.components.create('fs-pay-button', {
     style: {
         state: {
@@ -93,7 +119,7 @@ const payButtonComponent = sdk.components.create('fs-pay-button', {
 });
 payButtonComponent.mount('#pay-button-element');
 
-// 5. DISCLOSURES COMPONENT
+// 7. DISCLOSURES COMPONENT
 const disclosuresComponent = sdk.components.create('fs-disclosures', {
     style: {
         state: {
