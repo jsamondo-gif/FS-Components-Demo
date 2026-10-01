@@ -129,12 +129,19 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
     btn.innerText = "ESTABLISHING UPLINK...";
     btn.disabled = true;
 
-    // 1. UNLOCK THE AUDIO ON FIRST CLICK
+    // 1. PROPERLY UNLOCK/PRIME THE AUDIO ENGINE ON FIRST USER CLICK
     const jetAudio = document.getElementById('jet-sound');
     if (jetAudio) {
-        jetAudio.play().catch(() => {}); 
-        jetAudio.pause();
-        jetAudio.currentTime = 0;
+        jetAudio.volume = 1.0;
+        const playPromise = jetAudio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                jetAudio.pause();
+                jetAudio.currentTime = 0;
+            }).catch(error => {
+                console.log("Audio unlock failed on initial click:", error);
+            });
+        }
     }
 
     try {
@@ -148,7 +155,6 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
         
         if (sessionData && sessionData.id) {
             
-            // Define the success action separately so we can attach it to the correct completion hook
             const handleOrderComplete = (orderData) => {
                 document.getElementById('checkout-components-wrapper').style.display = 'none';
                 document.getElementById('checkout-header').style.display = 'none';
@@ -158,14 +164,14 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
                     document.getElementById('order-reference').innerText = `Uplink Ref: ${orderData.id}`;
                 }
 
-                // 2. PLAY THE JET SOUND
+                // 2. PLAY THE JET SOUND ON COMPLETION
                 if (jetAudio) {
-                    jetAudio.play().catch(err => console.log("Audio play prevented by browser:", err));
+                    jetAudio.currentTime = 0;
+                    jetAudio.play().catch(err => console.log("Audio play error on completion:", err));
                 }
             };
 
             sdk.checkout(sessionData.id, {
-                // onSuccess fires when the checkout INITIALIZES, so we just reveal the UI here
                 onSuccess: () => {
                     btn.innerText = "UPLINK SECURED";
                     document.getElementById('dormant-message').style.display = 'none';
@@ -176,7 +182,6 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
                     btn.innerText = "Initialize Uplink";
                     btn.disabled = false;
                 },
-                // These hooks wait for the actual payment to process before firing the jet
                 onOrderCompleted: handleOrderComplete,
                 onComplete: handleOrderComplete
             });
