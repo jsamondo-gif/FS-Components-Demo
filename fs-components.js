@@ -129,6 +129,14 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
     btn.innerText = "ESTABLISHING UPLINK...";
     btn.disabled = true;
 
+    // 1. UNLOCK THE AUDIO ON FIRST CLICK
+    const jetAudio = document.getElementById('jet-sound');
+    if (jetAudio) {
+        jetAudio.play().catch(() => {}); // Catch and ignore the browser's initial block
+        jetAudio.pause();
+        jetAudio.currentTime = 0;
+    }
+
     try {
         const response = await fetch('/create-session', {
             method: 'POST',
@@ -146,13 +154,11 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
                     document.getElementById('checkout-header').style.display = 'none';
                     document.getElementById('success-message').style.display = 'block';
                     
-                    // Display Order ID if available
                     if (orderData && orderData.id) {
                         document.getElementById('order-reference').innerText = `Uplink Ref: ${orderData.id}`;
                     }
 
-                    // PLAY THE JET SOUND
-                    const jetAudio = document.getElementById('jet-sound');
+                    // 2. PLAY THE JET SOUND
                     if (jetAudio) {
                         jetAudio.play().catch(err => console.log("Audio play prevented by browser:", err));
                     }
