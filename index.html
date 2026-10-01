@@ -122,6 +122,12 @@
             flex-direction: column;
             gap: 12px;
         }
+        
+        /* Fix for undocumented wallet iframes collapsing */
+        .wallet-buttons iframe {
+            min-height: 46px; 
+            width: 100%;
+        }
 
         .dormant-text {
             color: #ffcc00;
