@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bulletproof hotlink bypass to hide your site from audio hosts -->
+    <meta name="referrer" content="no-referrer">
     <title>Metalstorm Uplink: Project Holocron</title>
 
     <!-- Tactical HUD Font -->
@@ -236,8 +238,11 @@
         </div>
     </div>
 
-    <!-- Live Web Link for Jet Flyby Sound -->
-    <audio id="jet-sound" src="https://gfxsounds.com/wp-content/uploads/2023/10/Military-jet-airplane-pass-by-overhead-fly-by-2.mp3" preload="auto"></audio>
+    <!-- Live Web Link with no-referrer bypass AND a public domain fallback -->
+    <audio id="jet-sound" referrerpolicy="no-referrer" preload="auto">
+        <source src="https://gfxsounds.com/wp-content/uploads/2023/10/Military-jet-airplane-pass-by-overhead-fly-by-2.mp3" type="audio/mpeg">
+        <source src="https://upload.wikimedia.org/wikipedia/commons/4/41/F-18_flyby.ogg" type="audio/ogg">
+    </audio>
     <script type="module" src="fs-components.js"></script>
 
 </body>
