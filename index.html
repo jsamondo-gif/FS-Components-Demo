@@ -3,21 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Side Checkout: Phase 2</title>
+    <title>Metalstorm Uplink: Project Holocron</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <!-- Tactical HUD Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <script src="https://cdn.onfastspring.com/checkout-sdk/latest/fastspring-sdk.js"></script>
 
     <style>
         body {
-            background: radial-gradient(circle at center, #1a0000 0%, #000000 100%);
-            color: #aaaaaa; 
-            font-family: Arial, sans-serif; 
+            background: radial-gradient(circle at center, #0a1128 0%, #010308 100%);
+            color: #b0c4de; 
+            font-family: 'Share Tech Mono', monospace; 
             margin: 0; 
             padding: 40px; 
             min-height: 100vh;
             display: flex; 
             justify-content: center;
+            /* Subtle tactical grid */
+            background-image: linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
         .main-wrapper { 
             display: flex; 
@@ -27,147 +32,134 @@
             align-items: flex-start; 
         }
         
+        /* Left Panel - Pilot Roster */
         .left-panel { 
             flex: 1; 
-            background-color: rgba(10, 0, 0, 0.9); 
-            border: 2px solid #cc0000; 
+            background-color: rgba(5, 10, 25, 0.9); 
+            border: 1px solid #00e5ff; 
             padding: 30px; 
-            border-radius: 8px; 
-            box-shadow: 0 0 20px #cc0000; 
+            border-radius: 4px; 
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); 
+            position: relative;
         }
+        /* Tactical corner brackets */
+        .left-panel::before, .left-panel::after {
+            content: ''; position: absolute; width: 20px; height: 20px; border: 2px solid #00e5ff;
+        }
+        .left-panel::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .left-panel::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
         
+        /* Right Panel - Secure Uplink */
         .right-panel { 
             flex: 1; 
-            background: repeating-linear-gradient(-45deg, #050000, #050000 20px, #220000 20px, #220000 40px);
-            border: 2px solid #ff0000;
-            border-radius: 8px; 
+            background: linear-gradient(135deg, rgba(2, 6, 15, 0.95), rgba(10, 20, 40, 0.95));
+            border: 1px solid #ff9900;
+            border-radius: 4px; 
             padding: 30px; 
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6); 
+            box-shadow: 0 0 25px rgba(255, 153, 0, 0.15); 
             position: relative;
         }
         
         h2 { 
-            font-family: 'Cinzel Decorative', cursive;
-            color: #cc0000;
+            color: #00e5ff;
             text-transform: uppercase; 
             letter-spacing: 2px; 
             margin-top: 0; 
             margin-bottom: 10px;
+            font-size: 24px;
         }
         
-        .instructions { color: #ffffff; font-size: 14px; line-height: 1.4; margin-bottom: 20px; }
+        .instructions { color: #87cefa; font-size: 14px; line-height: 1.4; margin-bottom: 20px; }
         
         .form-group { margin-bottom: 15px; text-align: left; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #ffcc00; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #ff9900; letter-spacing: 1px;}
         
         input { 
-            width: 100%; padding: 10px; border: 1px solid #cc0000; background-color: #050505; 
-            color: #ffcc00; 
-            border-radius: 4px; box-sizing: border-box; font-size: 14px;
+            width: 100%; padding: 10px; border: 1px solid #00e5ff; background-color: rgba(0, 0, 0, 0.5); 
+            color: #ffffff; 
+            border-radius: 2px; box-sizing: border-box; font-size: 14px; font-family: 'Share Tech Mono', monospace;
         }
         
         input:focus { 
             outline: none; 
-            border-color: #ffcc00; 
-            box-shadow: 0 0 10px #ffcc00; 
-            background-color: #050505; 
+            border-color: #ffffff; 
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5); 
         }
 
         /* Kill Chrome Autofill White Background */
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover, 
-        input:-webkit-autofill:focus, 
-        input:-webkit-autofill:active,
-        #email-element::part(input):-webkit-autofill,
-        #card-element::part(input):-webkit-autofill {
-            -webkit-box-shadow: 0 0 0 30px #000000 inset !important;
-            -webkit-text-fill-color: #ffcc00 !important;
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 30px #02060f inset !important;
+            -webkit-text-fill-color: #00e5ff !important;
             transition: background-color 5000s ease-in-out 0s;
         }
         
         .artifact-box {
-            border: 1px solid #cc0000;
-            background-color: rgba(20, 0, 0, 0.8);
+            border: 1px solid #00e5ff;
+            background-color: rgba(0, 229, 255, 0.05);
             padding: 12px;
             margin-bottom: 20px;
-            border-radius: 4px;
-            color: #ffcc00;
+            border-radius: 2px;
+            color: #ffffff;
+            border-left: 4px solid #00e5ff;
         }
-        .artifact-box strong { font-size: 16px; display: block; margin-bottom: 4px; }
+        .artifact-box strong { font-size: 16px; display: block; margin-bottom: 4px; color: #00e5ff; }
 
         button { 
-            width: 100%; padding: 12px; background-color: #cc0000; 
-            color: #000000; font-size: 15px; font-weight: bold; text-transform: uppercase; 
-            border: none; border-radius: 4px; cursor: pointer; transition: 0.3s; 
+            width: 100%; padding: 12px; background-color: #ff9900; 
+            color: #000000; font-size: 16px; font-weight: bold; text-transform: uppercase; 
+            border: none; border-radius: 2px; cursor: pointer; transition: 0.3s; font-family: 'Share Tech Mono', monospace; letter-spacing: 1px;
         }
-        button:hover { background-color: #ffcc00; box-shadow: 0 0 15px #ffcc00; }
-        button:disabled { background-color: #330000; color: #666; cursor: not-allowed; box-shadow: none; }
+        button:hover { background-color: #ffcc00; box-shadow: 0 0 15px rgba(255, 153, 0, 0.6); }
+        button:disabled { background-color: #333; color: #666; cursor: not-allowed; box-shadow: none; }
 
         .fs-checkout-card {
-            background-color: rgba(0, 0, 0, 0.85); 
-            border: 1px solid #550000;
-            border-radius: 6px;
+            background-color: rgba(0, 0, 0, 0.4); 
+            border: 1px solid #1a365d;
+            border-radius: 4px;
             padding: 15px;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        /* WALLET CSS */
         .express-checkout:not(:has(.wallet-buttons > [style*="display: block"])) {
             display: none;
         }
-        
-        .wallet-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .wallet-buttons iframe {
-            min-height: 46px; 
-            width: 100%;
-        }
+        .wallet-buttons { display: flex; flex-direction: column; gap: 12px; }
+        .wallet-buttons iframe { min-height: 46px; width: 100%; }
 
         .dormant-text {
-            color: #ffcc00;
-            text-align: center;
-            font-family: 'Cinzel Decorative', cursive;
-            font-size: 16px;
-            margin: 40px 0;
-            text-shadow: 0 0 10px #ffcc00;
+            color: #00e5ff; text-align: center; font-size: 16px; margin: 40px 0;
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
         }
 
-        /* LIGHTSABER ANIMATION */
-        .lightsaber-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 30px auto;
+        /* JET ANIMATION */
+        .flight-path {
             width: 100%;
+            height: 60px;
+            position: relative;
+            overflow: hidden;
+            margin: 30px 0;
+            border-bottom: 1px dashed rgba(0, 229, 255, 0.5);
         }
-        .hilt {
-            width: 70px;
-            height: 14px;
-            background: linear-gradient(to bottom, #999 0%, #333 50%, #999 100%);
-            border-radius: 4px 0 0 4px;
-            border-right: 4px solid #000;
-            box-shadow: inset 0 0 5px #000;
-            z-index: 10;
-        }
-        .blade {
-            height: 10px;
-            background-color: #ffffff;
-            border-radius: 0 10px 10px 0;
-            box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000, 0 0 50px #ff0000;
-            width: 0; 
-            animation: igniteBlade 1.5s ease-out forwards;
-            animation-delay: 0.5s; 
+        
+        .jet-icon {
+            position: absolute;
+            left: -60px;
+            top: 10px;
+            width: 50px;
+            height: 50px;
+            fill: #00e5ff;
+            filter: drop-shadow(0 0 10px #00e5ff);
+            /* This animation only runs once the success screen is visible */
+            animation: flyby 1.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+            animation-delay: 0.1s;
         }
 
-        @keyframes igniteBlade {
-            0% { width: 0; }
-            100% { width: 220px; } 
+        @keyframes flyby {
+            0% { left: -60px; transform: scale(1) translateY(0); }
+            50% { transform: scale(1.2) translateY(-5px); }
+            100% { left: 120%; transform: scale(1) translateY(0); }
         }
     </style>
 </head>
@@ -175,46 +167,49 @@
 
     <div class="main-wrapper">
         <div class="left-panel">
-            <h2>Claim Your Destiny</h2>
-            <p class="instructions">Enter your details to generate a secure FastSpring checkout session.</p>
+            <h2>Pilot Registration</h2>
+            <p class="instructions">Enter credentials to establish a secure FastSpring uplink.</p>
             
             <div class="form-group">
-                <label>First Name</label>
+                <label>Callsign (First Name)</label>
                 <input type="text" id="firstName" placeholder="First Name" autocomplete="off">
             </div>
             <div class="form-group">
-                <label>Last Name</label>
+                <label>Squadron (Last Name)</label>
                 <input type="text" id="lastName" placeholder="Last Name" autocomplete="off">
             </div>
 
+            <!-- Keeping the Holocron! -->
             <div class="artifact-box">
                 <strong>Selected Artifact: Sith Holocron</strong>
-                Price: $99.99
+                Authorization: $99.99 USD
             </div>
 
-            <button id="buyNowBtn">Initialize Session</button>
+            <button id="buyNowBtn">Initialize Uplink</button>
         </div>
 
         <div class="right-panel">
             <div id="checkout-header">
-                <h2 style="color: #ff0000; text-shadow: 0 0 10px #ff0000; font-size: 20px;">Sith Holocron - $99.99</h2>
-                <p class="instructions" style="color: #cccccc;">Complete your payment below to unlock the secrets of the Dark Side.</p>
+                <h2 style="color: #ff9900; text-shadow: 0 0 10px rgba(255,153,0,0.4); font-size: 20px;">Sith Holocron - $99.99</h2>
+                <p class="instructions">Secure comms established. Awaiting payment authorization to deploy payload.</p>
             </div>
 
             <div id="dormant-message" class="dormant-text">
-                The portal lies dormant...<br><br>Initialize a session to summon the checkout.
+                [ COMMS OFFLINE ]<br><br>Initialize uplink to stream checkout UI.
             </div>
 
             <div id="success-message" style="display: none; text-align: center; margin-top: 20px;">
-                <h3 style="color: #cc0000; font-family: 'Cinzel Decorative', cursive; font-size: 22px; text-shadow: 0 0 15px #cc0000; margin-bottom: 10px;">Order 66 Executed</h3>
-                <p style="color: #aaaaaa; font-family: Arial, sans-serif;">Your payment was successful. The artifact is yours.</p>
+                <h3 style="color: #00e5ff; font-size: 22px; text-shadow: 0 0 10px #00e5ff; margin-bottom: 10px;">ORDER COMPLETE</h3>
+                <p style="color: #b0c4de;">Payment authorized. Payload en route to your hangar.</p>
                 
-                <div class="lightsaber-box">
-                    <div class="hilt"></div>
-                    <div class="blade"></div>
+                <div class="flight-path">
+                    <!-- Fighter Jet SVG -->
+                    <svg class="jet-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22,12 L18,9 L15,9 L11,4 L8,4 L10,9 L5,9 L3,7 L1,7 L2,12 L1,17 L3,17 L5,15 L10,15 L8,20 L11,20 L15,15 L18,15 L22,12 Z"/>
+                    </svg>
                 </div>
 
-                <p id="order-reference" style="color: #ffcc00; font-size: 14px; font-family: Arial, sans-serif; font-weight: bold;"></p>
+                <p id="order-reference" style="color: #ff9900; font-size: 14px; font-weight: bold;"></p>
             </div>
 
             <div id="checkout-components-wrapper" style="display: none;">
@@ -229,9 +224,9 @@
                         </div>
                         
                         <div style="display: flex; align-items: center; margin: 15px 0 5px;">
-                            <div style="flex: 1; height: 1px; background: #550000;"></div>
-                            <div style="color: #aa0000; padding: 0 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;">Or pay with card</div>
-                            <div style="flex: 1; height: 1px; background: #550000;"></div>
+                            <div style="flex: 1; height: 1px; background: #1a365d;"></div>
+                            <div style="color: #00e5ff; padding: 0 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">Or pay via card</div>
+                            <div style="flex: 1; height: 1px; background: #1a365d;"></div>
                         </div>
                     </section>
 
@@ -243,8 +238,9 @@
         </div>
     </div>
 
-    <audio id="saber-sound" src="https://www.myinstants.com/media/sounds/lightsaber_02.mp3" preload="auto"></audio>
-    <script type="module" src="/fs-components.js"></script>
+    <!-- Jet Flyby Sound -->
+    <audio id="jet-sound" src="https://www.myinstants.com/media/sounds/jet-flyby.mp3" preload="auto"></audio>
+    <script type="module" src="/fs-components.js?v=metalstorm-holocron"></script>
 
 </body>
 </html>
