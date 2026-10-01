@@ -113,7 +113,7 @@
             gap: 12px;
         }
 
-        /* WALLET HIDING CSS */
+        /* WALLET CSS */
         .express-checkout:not(:has(.wallet-buttons > [style*="display: block"])) {
             display: none;
         }
@@ -123,10 +123,18 @@
             gap: 12px;
         }
         
-        /* Fix for undocumented wallet iframes collapsing */
+        /* Frame the invisible black buttons with a Sith Red border so they pop! */
+        #apple-pay-element, 
+        #google-pay-element {
+            border: 1px solid #cc0000;
+            background-color: #050505;
+            border-radius: 5px;
+        }
+
         .wallet-buttons iframe {
             min-height: 46px; 
             width: 100%;
+            display: block;
         }
 
         .dormant-text {
@@ -222,7 +230,7 @@
                     <div id="email-element"></div>
                     <div id="coupon-element"></div>
                     
-                    <!-- EXPRESS CHECKOUT SECTION (Natively hidden by CSS if empty) -->
+                    <!-- EXPRESS CHECKOUT SECTION -->
                     <section class="express-checkout">
                         <div class="wallet-buttons">
                             <div id="apple-pay-element"></div>
