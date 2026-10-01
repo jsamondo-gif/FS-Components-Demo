@@ -10,15 +10,15 @@ const emailComponent = sdk.components.create('fs-email', {
         state: {
             default: {
                 email: { backgroundColor: 'transparent' },
-                emailTitle: { color: '#ffcc00', fontSize: '13px' },
-                label: { color: '#ffcc00', fontWeight: 'bold', fontSize: '11px' },
+                emailTitle: { color: '#00e5ff', fontSize: '13px', fontFamily: '"Share Tech Mono", monospace' },
+                label: { color: '#ff9900', fontWeight: 'bold', fontSize: '11px', fontFamily: '"Share Tech Mono", monospace' },
                 input: {
-                    backgroundColor: '#000000', borderColor: '#cc0000', borderRadius: '4px',
-                    height: '40px', color: '#ffcc00', fontSize: '14px'
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)', borderColor: '#00e5ff', borderRadius: '2px',
+                    height: '40px', color: '#ffffff', fontSize: '14px', fontFamily: '"Share Tech Mono", monospace'
                 }
             },
             focus: {
-                input: { borderColor: '#ffcc00', boxShadow: '0 0 8px #ffcc00', backgroundColor: '#000000' }
+                input: { borderColor: '#ffffff', boxShadow: '0 0 8px rgba(0, 229, 255, 0.6)' }
             }
         }
     }
@@ -31,31 +31,31 @@ const couponComponent = sdk.components.create('fs-coupon', {
         state: {
             default: {
                 input: {
-                    background: '#000000', borderColor: '#cc0000', borderRadius: '4px',
-                    height: '38px', color: '#ffcc00'
+                    background: 'rgba(0, 0, 0, 0.5)', borderColor: '#00e5ff', borderRadius: '2px',
+                    height: '38px', color: '#ffffff', fontFamily: '"Share Tech Mono", monospace'
                 },
                 button: {
-                    background: '#880000', color: '#ffffff', borderRadius: '4px'
+                    background: '#1a365d', color: '#00e5ff', borderRadius: '2px', fontFamily: '"Share Tech Mono", monospace'
                 },
                 chip: {
-                    background: '#220000', color: '#ffcc00', borderRadius: '12px'
+                    background: '#0a1128', color: '#ff9900', border: '1px solid #ff9900', borderRadius: '2px'
                 }
             },
             focus: {
-                input: { borderColor: '#ffcc00', boxShadow: '0 0 8px #ffcc00' }
+                input: { borderColor: '#ffffff', boxShadow: '0 0 8px rgba(0, 229, 255, 0.6)' }
             }
         }
     }
 });
 couponComponent.mount('#coupon-element');
 
-// 3. APPLE PAY COMPONENT (White Variant to pop on black background)
+// 3. APPLE PAY COMPONENT 
 const applePayComponent = sdk.components.create('fs-apple-pay', {
     variant: 'white', 
     style: {
         state: {
             default: {
-                button: { height: '46px', borderRadius: '4px' }
+                button: { height: '46px', borderRadius: '2px' }
             }
         }
     }
@@ -71,18 +71,18 @@ const cardComponent = sdk.components.create('fs-card', {
             default: {
                 card: { backgroundColor: 'transparent', border: 'none', boxShadow: 'none', padding: '0' },
                 input: {
-                    backgroundColor: '#000000', borderColor: '#cc0000', borderRadius: '4px',
-                    height: '42px', padding: '0 10px', color: '#ffcc00', fontSize: '14px'
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)', borderColor: '#00e5ff', borderRadius: '2px',
+                    height: '42px', padding: '0 10px', color: '#ffffff', fontSize: '14px', fontFamily: '"Share Tech Mono", monospace'
                 },
-                label: { color: '#ffcc00', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '11px' }
+                label: { color: '#ff9900', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '11px', fontFamily: '"Share Tech Mono", monospace' }
             },
             hover: { card: { backgroundColor: 'transparent' } },
             focus: {
                 card: { backgroundColor: 'transparent' },
-                input: { borderColor: '#ffcc00', boxShadow: '0 0 8px #ffcc00', backgroundColor: '#000000' }
+                input: { borderColor: '#ffffff', boxShadow: '0 0 8px rgba(0, 229, 255, 0.6)' }
             },
             error: {
-                input: { borderColor: '#ff0000', color: '#ff0000', backgroundColor: '#000000' }
+                input: { borderColor: '#ff0000', color: '#ff0000', backgroundColor: 'rgba(50, 0, 0, 0.5)' }
             }
         }
     }
@@ -95,12 +95,12 @@ const payButtonComponent = sdk.components.create('fs-pay-button', {
         state: {
             default: {
                 button: {
-                    backgroundColor: '#880000', color: '#ffffff', border: '1px solid #ff0000',
-                    borderRadius: '4px', width: '100%', height: '46px',
-                    fontSize: '16px', fontWeight: 'bold', textTransform: 'uppercase', cursor: 'pointer'
+                    backgroundColor: '#ff9900', color: '#000000', border: 'none',
+                    borderRadius: '2px', width: '100%', height: '46px',
+                    fontSize: '16px', fontWeight: 'bold', textTransform: 'uppercase', cursor: 'pointer', fontFamily: '"Share Tech Mono", monospace', letterSpacing: '1px'
                 }
             },
-            hover: { button: { backgroundColor: '#ff0000', boxShadow: '0 0 15px #ff0000' } }
+            hover: { button: { backgroundColor: '#ffcc00', boxShadow: '0 0 15px rgba(255, 153, 0, 0.6)' } }
         }
     }
 });
@@ -111,8 +111,8 @@ const disclosuresComponent = sdk.components.create('fs-disclosures', {
     style: {
         state: {
             default: {
-                container: { color: '#888888', fontFamily: 'Arial', fontSize: '11px' },
-                link: { color: '#ffcc00', fontWeight: 'bold', textDecoration: 'none' }
+                container: { color: '#b0c4de', fontFamily: '"Share Tech Mono", monospace', fontSize: '11px' },
+                link: { color: '#00e5ff', fontWeight: 'bold', textDecoration: 'none' }
             },
             hover: { link: { color: '#ffffff' } }
         }
@@ -126,7 +126,7 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
     const lastName = document.getElementById('lastName').value;
 
     const btn = document.getElementById('buyNowBtn');
-    btn.innerText = "Summoning...";
+    btn.innerText = "ESTABLISHING UPLINK...";
     btn.disabled = true;
 
     try {
@@ -140,21 +140,33 @@ document.getElementById('buyNowBtn').addEventListener('click', async () => {
         
         if (sessionData && sessionData.id) {
             sdk.checkout(sessionData.id, {
-                onSuccess: () => {
-                    btn.innerText = "Session Active";
-                    document.getElementById('dormant-message').style.display = 'none';
-                    document.getElementById('checkout-components-wrapper').style.display = 'block';
+                onSuccess: (orderData) => {
+                    // Hide checkout, show success
+                    document.getElementById('checkout-components-wrapper').style.display = 'none';
+                    document.getElementById('checkout-header').style.display = 'none';
+                    document.getElementById('success-message').style.display = 'block';
+                    
+                    // Display Order ID if available
+                    if (orderData && orderData.id) {
+                        document.getElementById('order-reference').innerText = `Uplink Ref: ${orderData.id}`;
+                    }
+
+                    // PLAY THE JET SOUND
+                    const jetAudio = document.getElementById('jet-sound');
+                    if (jetAudio) {
+                        jetAudio.play().catch(err => console.log("Audio play prevented by browser:", err));
+                    }
                 },
                 onError: (err) => {
                     console.error('SDK rejected the Session ID:', err);
-                    btn.innerText = "Initialize Session";
+                    btn.innerText = "Initialize Uplink";
                     btn.disabled = false;
                 }
             });
         }
     } catch (error) {
         console.error("Backend fetch failed:", error);
-        btn.innerText = "Initialize Session";
+        btn.innerText = "Initialize Uplink";
         btn.disabled = false;
     }
 });
