@@ -21,11 +21,9 @@
             /* Pure CSS Atmospheric Space / HUD Background */
             background-color: #02050e;
             background-image: 
-                /* Glowing orange/cyan ambient light spots */
                 radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.18) 0%, transparent 50%),
                 radial-gradient(circle at 80% 70%, rgba(255, 153, 0, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 50% 50%, rgba(10, 20, 45, 0.9) 0%, rgba(2, 5, 14, 1) 100%),
-                /* Tactical HUD grid lines */
                 linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
             background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
@@ -33,7 +31,7 @@
             color: #b0c4de; 
             font-family: 'Share Tech Mono', monospace; 
             margin: 0; 
-            padding: 80px 20px 40px 20px; 
+            padding: 70px 20px 30px 20px; 
             min-height: 100vh;
             display: flex; 
             justify-content: center;
@@ -46,7 +44,7 @@
         .hud-topbar {
             position: fixed;
             top: 0; left: 0; width: 100%;
-            padding: 14px 30px;
+            padding: 12px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -71,12 +69,12 @@
             z-index: 5;
             text-shadow: 0 0 5px rgba(0, 229, 255, 0.4);
         }
-        .top-left { top: 60px; left: 30px; }
-        .top-right { top: 60px; right: 30px; }
-        .bottom-left { bottom: 25px; left: 30px; }
-        .bottom-right { bottom: 25px; right: 30px; }
+        .top-left { top: 55px; left: 30px; }
+        .top-right { top: 55px; right: 30px; }
+        .bottom-left { bottom: 20px; left: 30px; }
+        .bottom-right { bottom: 20px; right: 30px; }
 
-        /* Brighter, High-Contrast Sonar Radar Ping Overlay */
+        /* Sonar Radar Ping Overlay */
         body::before, body::after {
             content: '';
             position: fixed;
@@ -91,7 +89,6 @@
             z-index: 0;
         }
 
-        /* Secondary delayed pulse for realistic sonar depth */
         body::after {
             animation-delay: 2s;
         }
@@ -104,9 +101,9 @@
 
         .main-wrapper { 
             display: flex; 
-            gap: 40px; 
+            gap: 30px; 
             width: 100%; 
-            max-width: 1100px; 
+            max-width: 1050px; 
             align-items: flex-start; 
             z-index: 1;
             transform-style: preserve-3d;
@@ -117,7 +114,7 @@
             flex: 1; 
             background-color: rgba(5, 12, 30, 0.9); 
             border: 1px solid #00e5ff; 
-            padding: 30px; 
+            padding: 22px 25px; 
             border-radius: 4px; 
             box-shadow: 0 0 25px rgba(0, 229, 255, 0.25); 
             backdrop-filter: blur(8px);
@@ -126,21 +123,20 @@
             will-change: transform;
         }
 
-        /* Tactical corner brackets */
         .left-panel::before, .left-panel::after {
-            content: ''; position: absolute; width: 20px; height: 20px; border: 2px solid #00e5ff;
+            content: ''; position: absolute; width: 18px; height: 18px; border: 2px solid #00e5ff;
             pointer-events: none;
         }
         .left-panel::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
         .left-panel::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
         
-        /* Right Panel - Secure Uplink */
+        /* Right Panel - Secure Uplink (Tightened Padding) */
         .right-panel { 
             flex: 1; 
             background: linear-gradient(135deg, rgba(3, 8, 20, 0.94), rgba(12, 24, 48, 0.94));
             border: 1px solid #ff9900;
             border-radius: 4px; 
-            padding: 30px; 
+            padding: 20px 22px; 
             box-shadow: 0 0 30px rgba(255, 153, 0, 0.3); 
             backdrop-filter: blur(8px);
             position: relative;
@@ -153,37 +149,35 @@
             text-transform: uppercase; 
             letter-spacing: 2px; 
             margin-top: 0; 
-            margin-bottom: 10px;
-            font-size: 24px;
+            margin-bottom: 6px;
+            font-size: 21px;
         }
         
-        .instructions { color: #87cefa; font-size: 14px; line-height: 1.4; margin-bottom: 20px; }
+        .instructions { color: #87cefa; font-size: 13px; line-height: 1.3; margin-bottom: 14px; }
         
-        .form-group { margin-bottom: 15px; text-align: left; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #ff9900; letter-spacing: 1px;}
+        .form-group { margin-bottom: 12px; text-align: left; }
+        label { display: block; margin-bottom: 4px; font-weight: bold; color: #ff9900; font-size: 12px; letter-spacing: 1px;}
         
         input { 
-            width: 100%; padding: 10px; border: 1px solid #00e5ff; background-color: rgba(0, 0, 0, 0.6); 
+            width: 100%; padding: 8px 10px; border: 1px solid #00e5ff; background-color: rgba(0, 0, 0, 0.6); 
             color: #ffffff; 
-            border-radius: 2px; font-size: 14px; font-family: 'Share Tech Mono', monospace;
+            border-radius: 2px; font-size: 13px; font-family: 'Share Tech Mono', monospace;
             transition: all 0.3s ease;
             cursor: text;
         }
         
-        /* Reticle Lock-On Focus Effect */
         input:focus { 
             outline: none; 
             border-color: #ffffff; 
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.8), inset 0 0 8px rgba(0, 229, 255, 0.3); 
+            box-shadow: 0 0 12px rgba(0, 229, 255, 0.8), inset 0 0 6px rgba(0, 229, 255, 0.3); 
             animation: reticlePulse 1.5s infinite alternate;
         }
 
         @keyframes reticlePulse {
-            0% { border-color: #00e5ff; box-shadow: 0 0 10px rgba(0, 229, 255, 0.6); }
-            100% { border-color: #ffffff; box-shadow: 0 0 20px rgba(0, 229, 255, 1); }
+            0% { border-color: #00e5ff; box-shadow: 0 0 8px rgba(0, 229, 255, 0.6); }
+            100% { border-color: #ffffff; box-shadow: 0 0 16px rgba(0, 229, 255, 1); }
         }
 
-        /* Prevent Chrome Autofill from forcing a white background */
         input:-webkit-autofill {
             -webkit-box-shadow: 0 0 0 30px #02060f inset !important;
             -webkit-text-fill-color: #00e5ff !important;
@@ -193,62 +187,59 @@
         .artifact-box {
             border: 1px solid #00e5ff;
             background-color: rgba(0, 229, 255, 0.05);
-            padding: 12px;
-            margin-bottom: 20px;
+            padding: 10px;
+            margin-bottom: 16px;
             border-radius: 2px;
             color: #ffffff;
             border-left: 4px solid #00e5ff;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .artifact-thumbnail {
-            width: 46px;
-            height: 46px;
+            width: 40px;
+            height: 40px;
             border: 1px solid #00e5ff;
             background: rgba(0, 229, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+            box-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
             flex-shrink: 0;
         }
 
-        .artifact-details {
-            flex: 1;
-        }
-
-        .artifact-details strong { font-size: 16px; display: block; margin-bottom: 2px; color: #00e5ff; }
+        .artifact-details strong { font-size: 15px; display: block; margin-bottom: 2px; color: #00e5ff; }
 
         button { 
-            width: 100%; padding: 12px; background-color: #ff9900; 
-            color: #000000; font-size: 16px; font-weight: bold; text-transform: uppercase; 
+            width: 100%; padding: 10px; background-color: #ff9900; 
+            color: #000000; font-size: 15px; font-weight: bold; text-transform: uppercase; 
             border: none; border-radius: 2px; cursor: pointer; transition: 0.3s; font-family: 'Share Tech Mono', monospace; letter-spacing: 1px;
             position: relative;
             overflow: hidden;
         }
-        button:hover { background-color: #ffcc00; box-shadow: 0 0 18px rgba(255, 153, 0, 0.7); }
+        button:hover { background-color: #ffcc00; box-shadow: 0 0 15px rgba(255, 153, 0, 0.7); }
         button:disabled { background-color: #333; color: #666; cursor: not-allowed; box-shadow: none; }
 
+        /* Compact FastSpring Checkout Container */
         .fs-checkout-card {
             background-color: rgba(0, 0, 0, 0.4); 
             border: 1px solid #1a365d;
             border-radius: 4px;
-            padding: 15px;
+            padding: 10px 12px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 6px;
         }
 
         .express-checkout:not(:has(.wallet-buttons > [style*="display: block"])) {
             display: none;
         }
-        .wallet-buttons { display: flex; flex-direction: column; gap: 12px; }
-        .wallet-buttons iframe { min-height: 46px; width: 100%; }
+        .wallet-buttons { display: flex; flex-direction: column; gap: 8px; }
+        .wallet-buttons iframe { min-height: 38px; width: 100%; }
 
         .dormant-text {
-            color: #00e5ff; text-align: center; font-size: 16px; margin: 40px 0;
+            color: #00e5ff; text-align: center; font-size: 15px; margin: 30px 0;
             text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
             transition: opacity 0.3s;
         }
@@ -256,19 +247,19 @@
         /* JET ANIMATION */
         .flight-path {
             width: 100%;
-            height: 60px;
+            height: 50px;
             position: relative;
             overflow: hidden;
-            margin: 30px 0;
+            margin: 20px 0;
             border-bottom: 1px dashed rgba(0, 229, 255, 0.5);
         }
         
         .jet-icon {
             position: absolute;
             left: -60px;
-            top: 10px;
-            width: 50px;
-            height: 50px;
+            top: 5px;
+            width: 45px;
+            height: 45px;
             fill: #00e5ff;
             filter: drop-shadow(0 0 10px #00e5ff);
             animation: flyby 1.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
@@ -322,18 +313,17 @@
             </div>
 
             <div class="artifact-box">
-                <!-- Holographic Item Thumbnail -->
                 <div class="artifact-thumbnail">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2">
                         <polygon points="12 2 2 7 12 12 22 7 12 2" />
                         <polyline points="2 17 12 22 22 17" />
                         <polyline points="2 12 12 17 22 12" />
                     </svg>
                 </div>
                 <div class="artifact-details">
-                    <div style="font-size: 10px; color: #ff9900; letter-spacing: 2px; margin-bottom: 2px; text-transform: uppercase;">[ LEGENDARY ARTIFACT ]</div>
+                    <div style="font-size: 9px; color: #ff9900; letter-spacing: 2px; margin-bottom: 2px; text-transform: uppercase;">[ LEGENDARY ARTIFACT ]</div>
                     <strong>Selected Artifact: Sith Holocron</strong>
-                    <span style="font-size: 12px; color: #b0c4de;">Authorization: $99.99 USD</span>
+                    <span style="font-size: 11px; color: #b0c4de;">Authorization: $99.99 USD</span>
                 </div>
             </div>
 
@@ -342,17 +332,17 @@
 
         <div class="right-panel" id="rightPanel">
             <div id="checkout-header">
-                <h2 style="color: #ff9900; text-shadow: 0 0 10px rgba(255,153,0,0.4); font-size: 20px;">Sith Holocron - $99.99</h2>
-                <p class="instructions">Secure comms established. Awaiting payment authorization to deploy payload.</p>
+                <h2 style="color: #ff9900; text-shadow: 0 0 10px rgba(255,153,0,0.4); font-size: 18px; margin-bottom: 4px;">Sith Holocron - $99.99</h2>
+                <p class="instructions" style="font-size: 12px; margin-bottom: 12px;">Secure comms established. Awaiting payment authorization to deploy payload.</p>
             </div>
 
             <div id="dormant-message" class="dormant-text">
                 [ COMMS OFFLINE ]<br><br>Initialize uplink to stream checkout UI.
             </div>
 
-            <div id="success-message" style="display: none; text-align: center; margin-top: 20px;">
-                <h3 style="color: #00e5ff; font-size: 22px; text-shadow: 0 0 10px #00e5ff; margin-bottom: 10px;">ORDER COMPLETE</h3>
-                <p style="color: #b0c4de;">Payment authorized. Payload en route to your hangar.</p>
+            <div id="success-message" style="display: none; text-align: center; margin-top: 15px;">
+                <h3 style="color: #00e5ff; font-size: 20px; text-shadow: 0 0 10px #00e5ff; margin-bottom: 8px;">ORDER COMPLETE</h3>
+                <p style="color: #b0c4de; font-size: 13px;">Payment authorized. Payload en route to your hangar.</p>
                 
                 <div class="flight-path">
                     <svg class="jet-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -360,7 +350,7 @@
                     </svg>
                 </div>
 
-                <p id="order-reference" style="color: #ff9900; font-size: 14px; font-weight: bold;"></p>
+                <p id="order-reference" style="color: #ff9900; font-size: 13px; font-weight: bold;"></p>
             </div>
 
             <div id="checkout-components-wrapper" style="display: none;">
@@ -373,9 +363,9 @@
                             <div id="apple-pay-element"></div>
                         </div>
                         
-                        <div style="display: flex; align-items: center; margin: 15px 0 5px;">
+                        <div style="display: flex; align-items: center; margin: 8px 0 2px;">
                             <div style="flex: 1; height: 1px; background: #1a365d;"></div>
-                            <div style="color: #00e5ff; padding: 0 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 2px;">Or pay via card</div>
+                            <div style="color: #00e5ff; padding: 0 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;">Or pay via card</div>
                             <div style="flex: 1; height: 1px; background: #1a365d;"></div>
                         </div>
                     </section>
@@ -391,7 +381,7 @@
     <audio id="jet-sound" src="jet-flyby.mp3" preload="auto"></audio>
 
     <script>
-        // 1. Smooth, Jitter-Free 3D Card Parallax Tilt
+        // 1. Smooth 3D Card Parallax Tilt
         const leftPanel = document.getElementById('leftPanel');
         const rightPanel = document.getElementById('rightPanel');
 
@@ -405,7 +395,6 @@
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
                 
-                // Gentle tilt angles (max 3 degrees) to prevent flickering
                 const rotateX = (y / (rect.height / 2)) * -3;
                 const rotateY = (x / (rect.width / 2)) * 3;
 
@@ -431,7 +420,6 @@
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
 
-            // Arm button feedback sequence
             btn.innerHTML = '[ ESTABLISHING UPLINK... ]';
             btn.style.backgroundColor = '#00e5ff';
 
@@ -439,11 +427,9 @@
                 btn.innerHTML = '[ UPLINK ACTIVE ]';
                 btn.style.backgroundColor = '#ffcc00';
 
-                // Fade out dormant text & show FastSpring container
                 dormant.style.display = 'none';
                 wrapper.style.display = 'block';
 
-                // Push customer info to FastSpring SDK if initialized
                 if (window.fastspring && typeof fastspring.builder === 'object') {
                     fastspring.builder.push({
                         "recipient": {
