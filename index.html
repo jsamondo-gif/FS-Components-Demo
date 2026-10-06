@@ -1,236 +1,1010 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Metalstorm Uplink: Project Holocron</title>
 
+
+
     <!-- Tactical HUD Font -->
+
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
     <script id="fsc-api" src="https://cdn.onfastspring.com/checkout-sdk/latest/fastspring-sdk.js"></script>
 
+
+
     <style>
+
         * {
+
             box-sizing: border-box;
+
         }
+
+
 
         body {
+
             /* Custom Tactical Fighter Crosshair Cursor (Encoded SVG) */
+
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='7' fill='none' stroke='%2300e5ff' stroke-width='1.5'/><circle cx='16' cy='16' r='1.5' fill='%23ff9900'/><line x1='16' y1='2' x2='16' y2='8' stroke='%2300e5ff' stroke-width='1.5'/><line x1='16' y1='24' x2='16' y2='30' stroke='%2300e5ff' stroke-width='1.5'/><line x1='2' y1='16' x2='8' y2='16' stroke='%2300e5ff' stroke-width='1.5'/><line x1='24' y1='16' x2='30' y2='16' stroke='%2300e5ff' stroke-width='1.5'/></svg>") 16 16, crosshair;
 
+
+
             /* Pure CSS Atmospheric Space / HUD Background */
+
             background-color: #02050e;
+
             background-image: 
+
                 radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.18) 0%, transparent 50%),
+
                 radial-gradient(circle at 80% 70%, rgba(255, 153, 0, 0.15) 0%, transparent 50%),
+
                 radial-gradient(circle at 50% 50%, rgba(10, 20, 45, 0.9) 0%, rgba(2, 5, 14, 1) 100%),
+
                 linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px),
+
                 linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
+
             background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+
             background-attachment: fixed;
+
             color: #b0c4de; 
+
             font-family: 'Share Tech Mono', monospace; 
+
             margin: 0; 
+
             padding: 70px 20px 30px 20px; 
+
             min-height: 100vh;
+
             display: flex; 
+
             justify-content: center;
+
             align-items: center;
+
             overflow-x: hidden;
+
             perspective: 1200px;
+
         }
+
+
 
         /* Top Bar Header Navigation */
+
         .hud-topbar {
+
             position: fixed;
+
             top: 0; left: 0; width: 100%;
+
             padding: 12px 30px;
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             background: linear-gradient(180deg, rgba(2, 6, 15, 0.95) 0%, rgba(2, 6, 15, 0) 100%);
+
             border-bottom: 1px solid rgba(0, 229, 255, 0.25);
+
             font-size: 12px;
+
             letter-spacing: 2px;
+
             z-index: 10;
+
             pointer-events: none;
+
         }
+
         .hud-logo { color: #00e5ff; font-weight: bold; text-shadow: 0 0 8px rgba(0,229,255,0.6); }
+
         .hud-logo span { color: #ff9900; }
+
         .hud-telemetry { color: #87cefa; font-size: 11px; }
 
+
+
         /* HUD Corner Telemetry Ticks */
+
         .hud-corner {
+
             position: fixed;
+
             font-size: 11px;
+
             color: rgba(0, 229, 255, 0.5);
+
             letter-spacing: 2px;
+
             pointer-events: none;
+
             z-index: 5;
+
             text-shadow: 0 0 5px rgba(0, 229, 255, 0.4);
+
         }
+
         .top-left { top: 55px; left: 30px; }
+
         .top-right { top: 55px; right: 30px; }
+
         .bottom-left { bottom: 20px; left: 30px; }
+
         .bottom-right { bottom: 20px; right: 30px; }
 
+
+
         /* Sonar Radar Ping Overlay */
+
         body::before, body::after {
+
             content: '';
+
             position: fixed;
+
             top: 50%; left: 50%;
+
             width: 700px; height: 700px;
+
             margin-top: -350px; margin-left: -350px;
+
             border: 2px solid rgba(0, 229, 255, 0.4);
+
             box-shadow: 0 0 20px rgba(0, 229, 255, 0.3), inset 0 0 15px rgba(0, 229, 255, 0.2);
+
             border-radius: 50%;
+
             pointer-events: none;
+
             animation: radarSweep 4s cubic-bezier(0.1, 0.7, 0.1, 1) infinite;
+
             z-index: 0;
+
         }
+
+
 
         body::after {
+
             animation-delay: 2s;
+
         }
+
+
 
         @keyframes radarSweep {
+
             0% { transform: scale(0.1); opacity: 0.9; }
+
             50% { opacity: 0.6; }
+
             100% { transform: scale(2.2); opacity: 0; }
+
         }
+
+
 
         /* RED ENEMY BOGEY RADAR BLIPS */
+
         .radar-blip {
+
             position: fixed;
+
             width: 7px;
+
             height: 7px;
+
             background-color: #ff3344;
+
             border-radius: 50%;
+
             box-shadow: 0 0 12px #ff3344, 0 0 24px #ff0022;
+
             pointer-events: none;
+
             z-index: 0;
+
             animation: blipPulse 4s ease-in-out infinite;
+
         }
+
+
 
         .radar-blip::after {
+
             content: '';
+
             position: absolute;
+
             top: -4px; left: -4px;
+
             width: 13px; height: 13px;
+
             border: 1px solid rgba(255, 51, 68, 0.7);
+
             pointer-events: none;
+
         }
+
+
 
         @keyframes blipPulse {
+
             0%, 100% { opacity: 0.15; transform: scale(0.7); }
+
             45%, 55% { opacity: 1; transform: scale(1.3); }
+
         }
+
+
 
         .main-wrapper { 
+
             display: flex; 
+
             gap: 30px; 
+
             width: 100%; 
+
             max-width: 1050px; 
+
             align-items: flex-start; 
+
             z-index: 1;
+
+            transform-style: preserve-3d;
+
         }
+
         
+
         /* Left Panel - Pilot Roster */
+
         .left-panel { 
+
             flex: 1; 
+
             background-color: rgba(5, 12, 30, 0.9); 
+
             border: 1px solid #00e5ff; 
+
             padding: 22px 25px; 
+
             border-radius: 4px; 
+
             box-shadow: 0 0 25px rgba(0, 229, 255, 0.25); 
+
             backdrop-filter: blur(8px);
+
             position: relative;
+
             transition: box-shadow 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+            will-change: transform;
+
+            transform-style: preserve-3d;
+
         }
+
+
 
         .left-panel::before, .left-panel::after {
+
             content: ''; position: absolute; width: 18px; height: 18px; border: 2px solid #00e5ff;
+
             pointer-events: none;
+
         }
+
         .left-panel::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+
         .left-panel::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
         
-        /* Right Panel - Secure Uplink */
+
+        /* Right Panel - Secure Uplink (Fixed Height Mismatch) */
+
         .right-panel { 
+
             flex: 1; 
+
             background: linear-gradient(135deg, rgba(3, 8, 20, 0.94), rgba(12, 24, 48, 0.94));
+
             border: 1px solid #ff9900;
+
             border-radius: 4px; 
+
             padding: 18px 20px; 
+
             box-shadow: 0 0 30px rgba(255, 153, 0, 0.3); 
+
             backdrop-filter: blur(8px);
+
             position: relative;
+
             transition: box-shadow 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+            will-change: transform;
+
+            transform-style: preserve-3d;
+
+
+
+            /* Cap height so it matches left panel visually */
+
             max-height: 520px;
+
             overflow-y: auto;
+
         }
+
+
 
         /* Custom Tactical HUD Scrollbar for Right Panel */
+
         .right-panel::-webkit-scrollbar {
+
             width: 5px;
+
         }
+
         .right-panel::-webkit-scrollbar-track {
+
             background: rgba(2, 6, 15, 0.8);
+
             border-left: 1px solid rgba(255, 153, 0, 0.2);
+
         }
+
         .right-panel::-webkit-scrollbar-thumb {
+
             background: #ff9900;
+
             border-radius: 2px;
+
             box-shadow: 0 0 8px #ff9900;
+
         }
+
         
+
         h2 { 
+
             color: #00e5ff;
+
             text-transform: uppercase; 
+
             letter-spacing: 2px; 
+
             margin-top: 0; 
+
             margin-bottom: 6px;
+
             font-size: 21px;
+
         }
+
         
+
         .instructions { color: #87cefa; font-size: 13px; line-height: 1.3; margin-bottom: 14px; }
+
         
+
         .form-group { margin-bottom: 12px; text-align: left; }
+
         label { display: block; margin-bottom: 4px; font-weight: bold; color: #ff9900; font-size: 12px; letter-spacing: 1px;}
+
         
+
         input { 
+
             width: 100%; padding: 8px 10px; border: 1px solid #00e5ff; background-color: rgba(0, 0, 0, 0.6); 
+
             color: #ffffff; 
+
             border-radius: 2px; font-size: 13px; font-family: 'Share Tech Mono', monospace;
+
             transition: all 0.3s ease;
+
             cursor: text;
+
         }
+
         
+
         input:focus { 
+
             outline: none; 
+
             border-color: #ffffff; 
+
             box-shadow: 0 0 12px rgba(0, 229, 255, 0.8), inset 0 0 6px rgba(0, 229, 255, 0.3); 
+
             animation: reticlePulse 1.5s infinite alternate;
+
         }
+
+
 
         @keyframes reticlePulse {
+
             0% { border-color: #00e5ff; box-shadow: 0 0 8px rgba(0, 229, 255, 0.6); }
+
             100% { border-color: #ffffff; box-shadow: 0 0 16px rgba(0, 229, 255, 1); }
+
         }
 
+
+
         input:-webkit-autofill {
+
             -webkit-box-shadow: 0 0 0 30px #02060f inset !important;
+
             -webkit-text-fill-color: #00e5ff !important;
+
             transition: background-color 5000s ease-in-out 0s;
+
         }
+
         
+
         .artifact-box {
+
             border: 1px solid #00e5ff;
+
             background-color: rgba(0, 229, 255, 0.05);
+
             padding: 10px;
+
             margin-bottom: 16px;
+
             border-radius: 2px;
+
             color: #ffffff;
+
             border-left: 4px solid #00e5ff;
+
             display: flex;
-            align-items: center
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+
+        .artifact-thumbnail {
+
+            width: 40px;
+
+            height: 40px;
+
+            border: 1px solid #00e5ff;
+
+            background: rgba(0, 229, 255, 0.1);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            box-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+
+            flex-shrink: 0;
+
+        }
+
+
+
+        .artifact-details strong { font-size: 15px; display: block; margin-bottom: 2px; color: #00e5ff; }
+
+
+
+        button { 
+
+            width: 100%; padding: 10px; background-color: #ff9900; 
+
+            color: #000000; font-size: 15px; font-weight: bold; text-transform: uppercase; 
+
+            border: none; border-radius: 2px; cursor: pointer; transition: 0.3s; font-family: 'Share Tech Mono', monospace; letter-spacing: 1px;
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+        button:hover { background-color: #ffcc00; box-shadow: 0 0 15px rgba(255, 153, 0, 0.7); }
+
+        button:disabled { background-color: #333; color: #666; cursor: not-allowed; box-shadow: none; }
+
+
+
+        .fs-checkout-card {
+
+            background-color: rgba(0, 0, 0, 0.4); 
+
+            border: 1px solid #1a365d;
+
+            border-radius: 4px;
+
+            padding: 8px 10px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 4px;
+
+        }
+
+
+
+        .express-checkout:not(:has(.wallet-buttons > [style*="display: block"])) {
+
+            display: none;
+
+        }
+
+        .wallet-buttons { display: flex; flex-direction: column; gap: 8px; }
+
+        .wallet-buttons iframe { min-height: 38px; width: 100%; }
+
+
+
+        .dormant-text {
+
+            color: #00e5ff; text-align: center; font-size: 15px; margin: 30px 0;
+
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+
+            transition: opacity 0.3s;
+
+        }
+
+
+
+        /* JET ANIMATION */
+
+        .flight-path {
+
+            width: 100%;
+
+            height: 50px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            margin: 20px 0;
+
+            border-bottom: 1px dashed rgba(0, 229, 255, 0.5);
+
+        }
+
+        
+
+        .jet-icon {
+
+            position: absolute;
+
+            left: -60px;
+
+            top: 5px;
+
+            width: 45px;
+
+            height: 45px;
+
+            fill: #00e5ff;
+
+            filter: drop-shadow(0 0 10px #00e5ff);
+
+            animation: flyby 1.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+
+            animation-delay: 0.1s;
+
+        }
+
+
+
+        @keyframes flyby {
+
+            0% { left: -60px; transform: scale(1) translateY(0); }
+
+            50% { transform: scale(1.2) translateY(-5px); }
+
+            100% { left: 120%; transform: scale(1) translateY(0); }
+
+        }
+
+
+
+        @media (max-width: 800px) {
+
+            .main-wrapper {
+
+                flex-direction: column;
+
+            }
+
+            .hud-corner, .radar-blip {
+
+                display: none;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <!-- HUD Top Bar -->
+
+    <div class="hud-topbar">
+
+        <div class="hud-logo">METALSTORM // <span>UPLINK v2.4</span></div>
+
+        <div class="hud-telemetry">
+
+            <span>LATENCY: 18MS</span> | <span>ENCRYPTION: TLS 1.3</span> | <span>SERVER: US-EAST</span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- HUD Corner Telemetry Ticks -->
+
+    <div class="hud-corner top-left">HDG: 280° NW</div>
+
+    <div class="hud-corner top-right">ALT: 18,500 FT | MACH 1.2</div>
+
+    <div class="hud-corner bottom-left">SYS: ONLINE</div>
+
+    <div class="hud-corner bottom-right">SEC: ENCRYPTED</div>
+
+
+
+    <!-- RED ENEMY BOGEY RADAR BLIPS (Positioned on the sonar sweep) -->
+
+    <div class="radar-blip" style="top: 28%; left: 18%; animation-delay: 0.4s;"></div>
+
+    <div class="radar-blip" style="top: 72%; left: 14%; animation-delay: 1.8s;"></div>
+
+    <div class="radar-blip" style="top: 32%; left: 84%; animation-delay: 3.1s;"></div>
+
+    <div class="radar-blip" style="top: 78%; left: 81%; animation-delay: 1.2s;"></div>
+
+    <div class="radar-blip" style="top: 18%; left: 52%; animation-delay: 2.5s;"></div>
+
+
+
+    <div class="main-wrapper">
+
+        <div class="left-panel" id="leftPanel">
+
+            <h2>Pilot Registration</h2>
+
+            <p class="instructions">Enter credentials to establish a secure FastSpring uplink.</p>
+
+            
+
+            <div class="form-group">
+
+                <label>Callsign (First Name)</label>
+
+                <input type="text" id="firstName" placeholder="First Name" autocomplete="off">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Squadron (Last Name)</label>
+
+                <input type="text" id="lastName" placeholder="Last Name" autocomplete="off">
+
+            </div>
+
+
+
+            <div class="artifact-box">
+
+                <div class="artifact-thumbnail">
+
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2">
+
+                        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+
+                        <polyline points="2 17 12 22 22 17" />
+
+                        <polyline points="2 12 12 17 22 12" />
+
+                    </svg>
+
+                </div>
+
+                <div class="artifact-details">
+
+                    <div style="font-size: 9px; color: #ff9900; letter-spacing: 2px; margin-bottom: 2px; text-transform: uppercase;">[ LEGENDARY ARTIFACT ]</div>
+
+                    <strong>Selected Artifact: Sith Holocron</strong>
+
+                    <span style="font-size: 11px; color: #b0c4de;">Authorization: $99.99 USD</span>
+
+                </div>
+
+            </div>
+
+
+
+            <button id="buyNowBtn">Initialize Uplink</button>
+
+        </div>
+
+
+
+        <div class="right-panel" id="rightPanel">
+
+            <div id="checkout-header">
+
+                <h2 style="color: #ff9900; text-shadow: 0 0 10px rgba(255,153,0,0.4); font-size: 18px; margin-bottom: 4px;">Sith Holocron - $99.99</h2>
+
+                <p class="instructions" style="font-size: 12px; margin-bottom: 12px;">Secure comms established. Awaiting payment authorization to deploy payload.</p>
+
+            </div>
+
+
+
+            <div id="dormant-message" class="dormant-text">
+
+                [ COMMS OFFLINE ]<br><br>Initialize uplink to stream checkout UI.
+
+            </div>
+
+
+
+            <div id="success-message" style="display: none; text-align: center; margin-top: 15px;">
+
+                <h3 style="color: #00e5ff; font-size: 20px; text-shadow: 0 0 10px #00e5ff; margin-bottom: 8px;">ORDER COMPLETE</h3>
+
+                <p style="color: #b0c4de; font-size: 13px;">Payment authorized. Payload en route to your hangar.</p>
+
+                
+
+                <div class="flight-path">
+
+                    <svg class="jet-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+
+                        <path d="M22,12 L18,9 L15,9 L11,4 L8,4 L10,9 L5,9 L3,7 L1,7 L2,12 L1,17 L3,17 L5,15 L10,15 L8,20 L11,20 L15,15 L18,15 L22,12 Z"/>
+
+                    </svg>
+
+                </div>
+
+
+
+                <p id="order-reference" style="color: #ff9900; font-size: 13px; font-weight: bold;"></p>
+
+            </div>
+
+
+
+            <div id="checkout-components-wrapper" style="display: none;">
+
+                <div class="fs-checkout-card">
+
+                    <div id="email-element"></div>
+
+                    <div id="coupon-element"></div>
+
+                    
+
+                    <section class="express-checkout">
+
+                        <div class="wallet-buttons">
+
+                            <div id="apple-pay-element"></div>
+
+                        </div>
+
+                        
+
+                        <div style="display: flex; align-items: center; margin: 8px 0 2px;">
+
+                            <div style="flex: 1; height: 1px; background: #1a365d;"></div>
+
+                            <div style="color: #00e5ff; padding: 0 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;">Or pay via card</div>
+
+                            <div style="flex: 1; height: 1px; background: #1a365d;"></div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <div id="card-element"></div>
+
+                    <div id="pay-button-element"></div>
+
+                    <div id="disclosures-element"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <audio id="jet-sound" src="jet-flyby.mp3" preload="auto"></audio>
+
+
+
+    <script>
+
+        // 1. Smooth 3D Card Parallax Tilt (Chrome Jitter-Free Fix)
+
+        const leftPanel = document.getElementById('leftPanel');
+
+        const rightPanel = document.getElementById('rightPanel');
+
+
+
+        function setupSmoothTilt(card) {
+
+            let rect = null;
+
+
+
+            card.addEventListener('mouseenter', () => {
+
+                rect = card.getBoundingClientRect();
+
+                card.style.transition = 'none';
+
+            });
+
+
+
+            card.addEventListener('mousemove', (e) => {
+
+                if (!rect) rect = card.getBoundingClientRect();
+
+
+
+                const x = e.clientX - rect.left - rect.width / 2;
+
+                const y = e.clientY - rect.top - rect.height / 2;
+
+
+
+                const rotateX = (y / (rect.height / 2)) * -2.5;
+
+                const rotateY = (x / (rect.width / 2)) * 2.5;
+
+
+
+                requestAnimationFrame(() => {
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+
+                });
+
+            });
+
+
+
+            card.addEventListener('mouseleave', () => {
+
+                rect = null;
+
+                card.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+
+            });
+
+        }
+
+
+
+        setupSmoothTilt(leftPanel);
+
+        setupSmoothTilt(rightPanel);
+
+
+
+        // 2. Uplink Initialization & Transition Sequence
+
+        document.getElementById('buyNowBtn').addEventListener('click', () => {
+
+            const btn = document.getElementById('buyNowBtn');
+
+            const dormant = document.getElementById('dormant-message');
+
+            const wrapper = document.getElementById('checkout-components-wrapper');
+
+            const firstName = document.getElementById('firstName').value;
+
+            const lastName = document.getElementById('lastName').value;
+
+
+
+            btn.innerHTML = '[ ESTABLISHING UPLINK... ]';
+
+            btn.style.backgroundColor = '#00e5ff';
+
+
+
+            setTimeout(() => {
+
+                btn.innerHTML = '[ UPLINK ACTIVE ]';
+
+                btn.style.backgroundColor = '#ffcc00';
+
+
+
+                dormant.style.display = 'none';
+
+                wrapper.style.display = 'block';
+
+
+
+                if (window.fastspring && typeof fastspring.builder === 'object') {
+
+                    fastspring.builder.push({
+
+                        "recipient": {
+
+                            "firstName": firstName,
+
+                            "lastName": lastName
+
+                        }
+
+                    });
+
+                }
+
+            }, 600);
+
+        });
+
+    </script>
+
+    <script type="module" src="fs-components.js"></script>
+
+
+
+</body>
+
+</html> 
+
