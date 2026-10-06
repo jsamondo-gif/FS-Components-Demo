@@ -158,19 +158,37 @@
         .left-panel::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
         .left-panel::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
         
-        /* Right Panel - Secure Uplink */
+        /* Right Panel - Secure Uplink (Fixed Height Mismatch) */
         .right-panel { 
             flex: 1; 
             background: linear-gradient(135deg, rgba(3, 8, 20, 0.94), rgba(12, 24, 48, 0.94));
             border: 1px solid #ff9900;
             border-radius: 4px; 
-            padding: 20px 22px; 
+            padding: 18px 20px; 
             box-shadow: 0 0 30px rgba(255, 153, 0, 0.3); 
             backdrop-filter: blur(8px);
             position: relative;
             transition: box-shadow 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
             will-change: transform;
             transform-style: preserve-3d;
+
+            /* Cap height so it matches left panel visually */
+            max-height: 520px;
+            overflow-y: auto;
+        }
+
+        /* Custom Tactical HUD Scrollbar for Right Panel */
+        .right-panel::-webkit-scrollbar {
+            width: 5px;
+        }
+        .right-panel::-webkit-scrollbar-track {
+            background: rgba(2, 6, 15, 0.8);
+            border-left: 1px solid rgba(255, 153, 0, 0.2);
+        }
+        .right-panel::-webkit-scrollbar-thumb {
+            background: #ff9900;
+            border-radius: 2px;
+            box-shadow: 0 0 8px #ff9900;
         }
         
         h2 { 
@@ -254,10 +272,10 @@
             background-color: rgba(0, 0, 0, 0.4); 
             border: 1px solid #1a365d;
             border-radius: 4px;
-            padding: 10px 12px;
+            padding: 8px 10px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
         }
 
         .express-checkout:not(:has(.wallet-buttons > [style*="display: block"])) {
